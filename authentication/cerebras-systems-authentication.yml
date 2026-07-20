@@ -1,0 +1,15 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cerebras-systems-chat-completions-openapi.yaml, openapi/cerebras-systems-inference-openapi-original.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: 'API key for authentication. Obtain your key from the Cerebras Cloud console
+    and pass it as `Authorization: Bearer [example key]`.'
+  sources:
+  - openapi/cerebras-systems-chat-completions-openapi.yaml
+  - openapi/cerebras-systems-inference-openapi-original.yml
