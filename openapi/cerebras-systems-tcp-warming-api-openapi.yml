@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Cerebras Inference Chat Tcp Warming API
+  version: 1.0.0
+  description: 'Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.
+
+    '
+servers:
+- url: https://api.cerebras.ai
+  description: Cerebras Inference API
+security:
+- BearerAuth: []
+tags:
+- name: Tcp Warming
+paths:
+  /v1/tcp_warming:
+    get:
+      operationId: tcp_warming_v1_tcp_warming_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Tcp Warming
+      tags:
+      - Tcp Warming
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'API key for authentication. Obtain your key from the Cerebras Cloud console and pass it as `Authorization: Bearer YOUR_API_KEY`.
+
+        '

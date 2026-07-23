@@ -1,0 +1,722 @@
+openapi: 3.1.0
+info:
+  title: Cerebras Inference Chat Public Models API
+  version: 1.0.0
+  description: 'Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.
+
+    '
+servers:
+- url: https://api.cerebras.ai
+  description: Cerebras Inference API
+security:
+- BearerAuth: []
+tags:
+- name: Public Models
+paths:
+  /public/v1/models:
+    get:
+      description: List all publicly available models (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs.
+      operationId: list_public_models_endpoint_public_v1_models_get
+      parameters:
+      - description: 'Output format: ''default'' (Cerebras schema), ''openrouter'', or ''huggingface'''
+        in: query
+        name: format
+        required: false
+        schema:
+          $ref: '#/components/schemas/ModelFormat'
+          default: default
+          description: 'Output format: ''default'' (Cerebras schema), ''openrouter'', or ''huggingface'''
+      - in: header
+        name: X-Amz-Cf-Id
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Amz-Cf-Id
+      - in: header
+        name: CF-RAY
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cf-Ray
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/PublicModelsListResponse'
+                - $ref: '#/components/schemas/OpenRouterModelsResponse'
+                - $ref: '#/components/schemas/HuggingFaceModelsResponse'
+                title: Response List Public Models Endpoint Public V1 Models Get
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: List all available models
+      tags:
+      - Public Models
+  /public/v1/models/{model_id}:
+    get:
+      description: Retrieve a specific publicly available model by ID (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs.
+      operationId: get_public_model_public_v1_models__model_id__get
+      parameters:
+      - in: path
+        name: model_id
+        required: true
+        schema:
+          title: Model Id
+          type: string
+      - description: 'Output format: ''default'' (Cerebras schema), ''openrouter'', or ''huggingface'''
+        in: query
+        name: format
+        required: false
+        schema:
+          $ref: '#/components/schemas/ModelFormat'
+          default: default
+          description: 'Output format: ''default'' (Cerebras schema), ''openrouter'', or ''huggingface'''
+      - in: header
+        name: X-Amz-Cf-Id
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Amz-Cf-Id
+      - in: header
+        name: CF-RAY
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cf-Ray
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/PublicModel'
+                - $ref: '#/components/schemas/OpenRouterModel'
+                - $ref: '#/components/schemas/HuggingFaceModel'
+                title: Response Get Public Model Public V1 Models  Model Id  Get
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Retrieve a specific model
+      tags:
+      - Public Models
+components:
+  schemas:
+    OpenRouterPricing:
+      description: OpenRouter pricing format.
+      properties:
+        completion:
+          description: Cost per output token as string
+          title: Completion
+          type: string
+        image:
+          default: '0'
+          description: Cost per image as string
+          title: Image
+          type: string
+        input_cache_read:
+          default: '0'
+          description: Cost per cached input token read as string
+          title: Input Cache Read
+          type: string
+        input_cache_write:
+          default: '0'
+          description: Cost per cached input token write as string
+          title: Input Cache Write
+          type: string
+        prompt:
+          description: Cost per input token as string
+          title: Prompt
+          type: string
+        request:
+          default: '0'
+          description: Cost per request as string
+          title: Request
+          type: string
+      required:
+      - prompt
+      - completion
+      title: OpenRouterPricing
+      type: object
+    HuggingFacePricing:
+      description: HuggingFace pricing format - price in USD per million tokens.
+      properties:
+        input:
+          description: Price in USD per million input tokens
+          title: Input
+          type: number
+        output:
+          description: Price in USD per million output tokens
+          title: Output
+          type: number
+      required:
+      - input
+      - output
+      title: HuggingFacePricing
+      type: object
+    PublicModel:
+      description: 'Complete model specification following OpenAI-compatible schema
+
+        with extensions for OpenRouter/HuggingFace compatibility.'
+      properties:
+        architecture:
+          $ref: '#/components/schemas/ModelArchitecture'
+          description: Technical architecture details of the model.
+        capabilities:
+          $ref: '#/components/schemas/ModelCapabilities'
+          description: The capabilities supported by the model.
+        created:
+          description: The Unix timestamp (in seconds) when the model was created.
+          minimum: 0.0
+          title: Created
+          type: integer
+        datacenter_locations:
+          description: List of datacenter locations where this model is deployed (e.g., ['us-east-1', 'eu-west-1']).
+          items:
+            type: string
+          title: Datacenter Locations
+          type: array
+        deprecated:
+          default: false
+          description: Indicates if the model is deprecated and should not be used for new applications.
+          title: Deprecated
+          type: boolean
+        description:
+          description: A brief description of the model.
+          maxLength: 1000
+          minLength: 1
+          title: Description
+          type: string
+        hugging_face_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The corresponding HuggingFace Hub model ID, if available (e.g., 'meta-llama/Llama-3.1-8B-Instruct').
+          title: Hugging Face Id
+        id:
+          description: The unique identifier for the model (e.g., 'llama3.1-8b').
+          maxLength: 200
+          minLength: 1
+          title: Id
+          type: string
+        limits:
+          $ref: '#/components/schemas/ModelLimits'
+          description: Usage limits and constraints for the model.
+        name:
+          description: The human-readable name of the model.
+          minLength: 1
+          title: Name
+          type: string
+        object:
+          const: model
+          default: model
+          description: The object type, which is always 'model'.
+          title: Object
+          type: string
+        owned_by:
+          description: The organization that owns or created the model.
+          minLength: 1
+          title: Owned By
+          type: string
+        preview:
+          default: false
+          description: Indicates if the model is in preview or beta status.
+          title: Preview
+          type: boolean
+        pricing:
+          $ref: '#/components/schemas/ModelPricing'
+          description: Pricing details for the model.
+        quantization:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Quantization precision (e.g., 'FP16', 'FP16/FP8 (weights only)').
+          title: Quantization
+        supported_parameters:
+          $ref: '#/components/schemas/SupportedParameters'
+      required:
+      - id
+      - created
+      - owned_by
+      - name
+      - description
+      - pricing
+      - capabilities
+      - supported_parameters
+      - architecture
+      - limits
+      title: PublicModel
+      type: object
+    ModelCapabilities:
+      description: Capabilities and features supported by the model.
+      properties:
+        function_calling:
+          default: false
+          description: Indicates if the model supports function calling (tool use).
+          title: Function Calling
+          type: boolean
+        json_mode:
+          default: false
+          description: Indicates if the model supports JSON mode (guaranteed JSON output).
+          title: Json Mode
+          type: boolean
+        parallel_tool_calls:
+          default: false
+          description: Indicates if the model supports parallel tool calls.
+          title: Parallel Tool Calls
+          type: boolean
+        reasoning:
+          default: false
+          description: Indicates if the model supports reasoning/chain-of-thought outputs.
+          title: Reasoning
+          type: boolean
+        response_format:
+          default: false
+          description: Indicates if the model supports the response_format parameter.
+          title: Response Format
+          type: boolean
+        streaming:
+          default: true
+          description: Indicates if the model supports streaming responses via Server-Sent Events (SSE).
+          title: Streaming
+          type: boolean
+        structured_outputs:
+          default: false
+          description: Indicates if the model supports structured outputs (e.g. JSON schema enforcement).
+          title: Structured Outputs
+          type: boolean
+        tool_choice:
+          default: false
+          description: Indicates if the model supports the tool_choice parameter.
+          title: Tool Choice
+          type: boolean
+        tools:
+          default: false
+          description: Indicates if the model supports the tools parameter.
+          title: Tools
+          type: boolean
+        vision:
+          default: false
+          description: Indicates if the model accepts image inputs (vision capabilities).
+          title: Vision
+          type: boolean
+      title: ModelCapabilities
+      type: object
+    HuggingFaceCapabilities:
+      description: HuggingFace capabilities format.
+      properties:
+        function_calling:
+          default: false
+          title: Function Calling
+          type: boolean
+        streaming:
+          default: true
+          title: Streaming
+          type: boolean
+        structured_outputs:
+          default: false
+          title: Structured Outputs
+          type: boolean
+        vision:
+          default: false
+          title: Vision
+          type: boolean
+      title: HuggingFaceCapabilities
+      type: object
+    OpenRouterInfo:
+      description: OpenRouter metadata.
+      properties:
+        slug:
+          description: OpenRouter slug for the model
+          title: Slug
+          type: string
+      required:
+      - slug
+      title: OpenRouterInfo
+      type: object
+    DatacenterLocation:
+      description: Datacenter location information.
+      properties:
+        country_code:
+          description: ISO 3166 Alpha-2 country code
+          title: Country Code
+          type: string
+      required:
+      - country_code
+      title: DatacenterLocation
+      type: object
+    ModelLimits:
+      description: Rate limits and constraints for the model.
+      properties:
+        max_completion_tokens:
+          description: The maximum number of tokens that can be generated in a single completion.
+          exclusiveMinimum: 0.0
+          title: Max Completion Tokens
+          type: integer
+        max_context_length:
+          description: The maximum context window size in tokens.
+          exclusiveMinimum: 0.0
+          title: Max Context Length
+          type: integer
+        requests_per_minute:
+          anyOf:
+          - minimum: 0.0
+            type: integer
+          - type: 'null'
+          description: The default rate limit for requests per minute (RPM).
+          title: Requests Per Minute
+        tokens_per_minute:
+          anyOf:
+          - minimum: 0.0
+            type: integer
+          - type: 'null'
+          description: The default rate limit for tokens per minute (TPM).
+          title: Tokens Per Minute
+      required:
+      - max_context_length
+      - max_completion_tokens
+      title: ModelLimits
+      type: object
+    ModelArchitecture:
+      description: Architecture details of the model.
+      properties:
+        instruct_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The instruction format type used for fine-tuning (e.g., 'llama3', 'chatml').
+          title: Instruct Type
+        modality:
+          description: The modality of the model (e.g., 'text', 'text+vision', 'multimodal').
+          enum:
+          - text
+          - text+vision
+          - multimodal
+          title: Modality
+          type: string
+        tokenizer:
+          description: The tokenizer used by the model (e.g., 'Llama3', 'GPT4').
+          title: Tokenizer
+          type: string
+      required:
+      - modality
+      - tokenizer
+      title: ModelArchitecture
+      type: object
+    PublicModelsListResponse:
+      description: OpenAI-compatible list of models.
+      properties:
+        data:
+          description: Array of model objects
+          items:
+            $ref: '#/components/schemas/PublicModel'
+          title: Data
+          type: array
+        object:
+          const: list
+          default: list
+          description: Object type (always 'list')
+          title: Object
+          type: string
+      required:
+      - data
+      title: PublicModelsListResponse
+      type: object
+    OpenRouterModel:
+      description: Model in OpenRouter-compatible format.
+      properties:
+        context_length:
+          title: Context Length
+          type: integer
+        created:
+          description: Unix timestamp when model was created
+          title: Created
+          type: integer
+        datacenters:
+          description: Datacenter locations
+          items:
+            $ref: '#/components/schemas/DatacenterLocation'
+          title: Datacenters
+          type: array
+        description:
+          default: ''
+          description: Model description
+          title: Description
+          type: string
+        hugging_face_id:
+          default: ''
+          description: The corresponding HuggingFace Hub model ID, if available
+          title: Hugging Face Id
+          type: string
+        id:
+          description: Model ID with provider prefix, e.g., 'cerebras/llama3.1-8b'
+          title: Id
+          type: string
+        input_modalities:
+          description: Supported input modalities (text, image, file)
+          items:
+            type: string
+          title: Input Modalities
+          type: array
+        max_output_length:
+          description: Maximum number of output tokens
+          title: Max Output Length
+          type: integer
+        name:
+          title: Name
+          type: string
+        openrouter:
+          anyOf:
+          - $ref: '#/components/schemas/OpenRouterInfo'
+          - type: 'null'
+          description: OpenRouter metadata
+        output_modalities:
+          description: Supported output modalities (text, image, file)
+          items:
+            type: string
+          title: Output Modalities
+          type: array
+        pricing:
+          $ref: '#/components/schemas/OpenRouterPricing'
+        quantization:
+          default: fp16
+          description: Model quantization (fp16 only for Cerebras)
+          title: Quantization
+          type: string
+        supported_features:
+          description: List of supported features
+          items:
+            type: string
+          title: Supported Features
+          type: array
+        supported_sampling_parameters:
+          description: List of supported sampling parameters
+          items:
+            type: string
+          title: Supported Sampling Parameters
+          type: array
+      required:
+      - id
+      - name
+      - created
+      - context_length
+      - max_output_length
+      - pricing
+      title: OpenRouterModel
+      type: object
+    HuggingFaceModel:
+      description: 'Model in HuggingFace-compatible format for inference providers.
+
+
+        This format is used by HuggingFace to power their provider comparison table
+
+        and provider selection features.'
+      properties:
+        capabilities:
+          $ref: '#/components/schemas/HuggingFaceCapabilities'
+        context_length:
+          description: Supported context length in tokens
+          title: Context Length
+          type: integer
+        created:
+          title: Created
+          type: integer
+        hugging_face_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The corresponding HuggingFace Hub model ID
+          title: Hugging Face Id
+        id:
+          title: Id
+          type: string
+        object:
+          const: model
+          default: model
+          title: Object
+          type: string
+        owned_by:
+          title: Owned By
+          type: string
+        pricing:
+          $ref: '#/components/schemas/HuggingFacePricing'
+      required:
+      - id
+      - created
+      - owned_by
+      - context_length
+      - pricing
+      title: HuggingFaceModel
+      type: object
+    OpenRouterModelsResponse:
+      description: OpenRouter-compatible list of models.
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/OpenRouterModel'
+          title: Data
+          type: array
+      required:
+      - data
+      title: OpenRouterModelsResponse
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    SupportedParameters:
+      description: Sampling parameters supported by the model.
+      properties:
+        frequency_penalty:
+          default: false
+          description: Supports frequency_penalty parameter.
+          title: Frequency Penalty
+          type: boolean
+        logit_bias:
+          default: false
+          description: Supports logit_bias parameter.
+          title: Logit Bias
+          type: boolean
+        logprobs:
+          default: false
+          description: Supports logprobs output.
+          title: Logprobs
+          type: boolean
+        max_completion_tokens:
+          default: true
+          description: Supports max_completion_tokens parameter.
+          title: Max Completion Tokens
+          type: boolean
+        presence_penalty:
+          default: false
+          description: Supports presence_penalty parameter.
+          title: Presence Penalty
+          type: boolean
+        repetition_penalty:
+          default: false
+          description: Supports repetition_penalty parameter.
+          title: Repetition Penalty
+          type: boolean
+        seed:
+          default: true
+          description: Supports seed for reproducible outputs.
+          title: Seed
+          type: boolean
+        stop:
+          default: true
+          description: Supports stop sequences parameter.
+          title: Stop
+          type: boolean
+        temperature:
+          default: true
+          description: Supports temperature sampling parameter.
+          title: Temperature
+          type: boolean
+        top_logprobs:
+          default: false
+          description: Supports top_logprobs parameter.
+          title: Top Logprobs
+          type: boolean
+        top_p:
+          default: true
+          description: Supports top_p (nucleus) sampling parameter.
+          title: Top P
+          type: boolean
+      title: SupportedParameters
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ModelPricing:
+      description: Pricing information for a model.
+      example:
+        completion: '0.0000001'
+        prompt: '0.0000001'
+      properties:
+        completion:
+          description: Cost per token for completion (output) tokens in USD.
+          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          title: Completion
+          type: string
+        prompt:
+          description: Cost per token for prompt (input) tokens in USD.
+          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          title: Prompt
+          type: string
+      required:
+      - prompt
+      - completion
+      title: ModelPricing
+      type: object
+    HuggingFaceModelsResponse:
+      description: HuggingFace-compatible list of models.
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/HuggingFaceModel'
+          title: Data
+          type: array
+        object:
+          const: list
+          default: list
+          title: Object
+          type: string
+      required:
+      - data
+      title: HuggingFaceModelsResponse
+      type: object
+    ModelFormat:
+      description: Output format for public models endpoint.
+      enum:
+      - default
+      - openrouter
+      - huggingface
+      title: ModelFormat
+      type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'API key for authentication. Obtain your key from the Cerebras Cloud console and pass it as `Authorization: Bearer YOUR_API_KEY`.
+
+        '
