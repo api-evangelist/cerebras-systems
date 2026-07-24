@@ -1,0 +1,33 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cerebras-systems-inference-openapi-original.yml, https://inference-docs.cerebras.ai, https://trust.cerebras.ai
+standards:
+- id: openai-chat-completions-compat
+  conforms: true
+  evidence: Documented OpenAI client-library compatibility at base_url https://api.cerebras.ai/v1 (resources/openai).
+- id: oauth2
+  conforms: false
+  evidence: Auth is a static bearer API key; no oauth2 securityScheme in the OpenAPI.
+- id: oidc
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use application/json with an error object, not application/problem+json.
+- id: rfc6750-bearer-token
+  conforms: true
+  evidence: Authorization Bearer token (HTTPBearer securityScheme).
+- id: sse-streaming
+  conforms: true
+  evidence: Server-sent events streaming via stream=true (capabilities/streaming).
+- id: json-schema-structured-outputs
+  conforms: true
+  evidence: response_format supports JSON Schema enforcement (capabilities/structured-outputs).
+- id: soc2-type2
+  conforms: true
+  evidence: SOC 2 Type 2 report available via trust.cerebras.ai (SafeBase/Drata).
+- id: gdpr
+  conforms: true
+  evidence: GDPR compliance and DPA published in the trust center.
+- id: ccpa
+  conforms: true
+  evidence: CCPA compliance referenced in privacy policy / trust center.

@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source: live probes of /.well-known/* on Cerebras hosts
+hosts:
+- host: https://api.cerebras.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://www.cerebras.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://www.cerebras.net
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+notes: >-
+  No /.well-known discovery documents published on the API, marketing, or legacy
+  hosts as of the probe date. Authentication is a static bearer API key (no OAuth/OIDC
+  authorization-server metadata). Absence is valid, recorded data.

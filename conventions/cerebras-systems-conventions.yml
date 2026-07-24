@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: searched
+source: https://inference-docs.cerebras.ai (api-reference, capabilities, support)
+authentication:
+  style: bearer-api-key
+  header: 'Authorization: Bearer <CEREBRAS_API_KEY>'
+  env_var: CEREBRAS_API_KEY
+  key_management: https://cloud.cerebras.ai
+  see: authentication/cerebras-systems-authentication.yml
+openai_compatibility:
+  compatible: true
+  base_url: https://api.cerebras.ai/v1
+  docs: https://inference-docs.cerebras.ai/resources/openai
+  note: Mostly compatible with the OpenAI client libraries by overriding base_url.
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header is documented for the Inference API; requests are
+    generative and non-idempotent by nature. (No type:Idempotency pointer emitted.)
+pagination:
+  style: none-documented
+  note: List endpoints (models) return the full collection without documented cursor/offset paging.
+versioning:
+  style: request-header
+  header: X-Cerebras-Version-Patch
+  see: lifecycle/cerebras-systems-lifecycle.yml
+request_tracing:
+  request_id: false
+  note: No documented request-id/correlation header; the console provides request logs.
+content_negotiation:
+  request_media_types: [application/json, application/vnd.msgpack]
+  request_encoding: [identity, gzip]
+  note: msgpack + gzip payload optimization reduces latency (capabilities/payload-optimization).
+streaming:
+  style: server-sent-events
+  param: stream=true
+  docs: https://inference-docs.cerebras.ai/capabilities/streaming
+service_tiers:
+  values: [priority, default, auto, flex]
+  header: queue_threshold (flex/auto, private preview)
+  docs: https://inference-docs.cerebras.ai/capabilities/service-tiers
+error_envelope:
+  media_type: application/json
+  shape: '{ "error": { "message", "type", "code", "param" } }'
+  see: errors/cerebras-systems-problem-types.yml
+rate_limit_signaling:
+  model: dual-bucket (uncached TPM + total TPM); RPM/RPH/RPD and TPM/TPH/TPD
+  exceeded_status: 429
+  see: rate-limits/cerebras-systems-rate-limits.yml

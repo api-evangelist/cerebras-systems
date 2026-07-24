@@ -1,0 +1,37 @@
+generated: '2026-07-18'
+method: searched
+source: https://inference-docs.cerebras.ai/support/change-log
+scheme: dated
+entries:
+- date: '2026-07-16'
+  title: Free Trial Credits
+  type: addition
+  highlight: New accounts receive $5 in free credits after adding a verified payment method; credits expire 30 days after issuance, usable across all public models.
+- date: '2026-07-16'
+  title: Uncached Rate Limits
+  type: change
+  highlight: Introduced dual-bucket rate limiting with separate limits for uncached tokens and total tokens; rolling out gradually through 2026-08-17.
+- date: '2026-07-14'
+  title: Gemma 4 31B Integration Expansion
+  type: addition
+  highlight: Gemma 4 31B available in Cline, Kilo Code, OpenCode, and VS Code with native multimodal support.
+- date: '2026-06-29'
+  title: Gemma 4 31B Launch & Image Support
+  type: addition
+  highlight: First Cerebras model to support image input via the Chat Completions API (screenshots, documents, diagrams).
+- date: '2026-06-01'
+  title: StepFun Models on Dedicated Endpoints
+  type: addition
+  highlight: Step 3.5 Flash and Step 3.7 Flash supported on Dedicated Endpoints.
+- date: '2026-05-01'
+  title: Projects Generally Available
+  type: addition
+  highlight: API key grouping, per-project rate limits, and segmented analytics out of private preview.
+- date: '2026-04-27'
+  title: New Dedicated Models
+  type: addition
+  highlight: GLM 5, GLM 5.1, and Kimi K2.6 available on Dedicated Endpoints.
+- date: '2026-04-24'
+  title: HTTP Status Code Changes
+  type: breaking
+  highlight: Validation errors now return HTTP 400 Bad Request instead of 422, affecting SDK exception handling.

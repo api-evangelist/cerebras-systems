@@ -1,8 +1,18 @@
 aid: cerebras-systems
 name: Cerebras Systems
-description: 'Cerebras Systems is a company surfaced as a portfolio company of coatue and added to the
-  API Evangelist network as a stub for enrichment. Sector: ai-infrastructure. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  Cerebras Systems builds the Wafer-Scale Engine (WSE) — the largest computer
+  chip ever made — and the CS-3 systems built around it, delivering AI training
+  and inference at speeds far beyond conventional GPUs. Cerebras Inference is the
+  company's cloud API: an OpenAI-compatible REST interface at api.cerebras.ai
+  that serves open-weight frontier models (OpenAI GPT-OSS, Gemma 4, Z.ai GLM 4.7)
+  at industry-leading tokens-per-second. Developers authenticate with a bearer
+  API key and call chat/completions, completions, and models endpoints, with
+  streaming, tool calling, structured outputs, vision, prompt caching, and batch
+  inference. Custom model weights can be deployed on dedicated endpoints. Official
+  Python and Node.js SDKs, a Cloud Console with a playground, and coding-tool
+  integrations (VS Code, Cline, Kilo Code, OpenCode) round out the developer
+  surface.
 url: https://raw.githubusercontent.com/api-evangelist/cerebras-systems/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +20,230 @@ x-backed-by:
 - coatue
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: true
+  try_now: true
+  public: false
+  label: Freemium (free trial) · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://github.com/Cerebras.png
 tags:
 - Company
 - Ai Infrastructure
-apis: []
+- Artificial Intelligence
+- Machine Learning
+- Inference
+- Large Language Models
+- Developer Tools
+- Cloud Computing
+- Semiconductors
+apis:
+- aid: cerebras-systems:cerebras-systems-chat-api
+  name: Cerebras Systems Chat API
+  description: The Chat API from Cerebras Systems — 1 operation(s) for chat.
+  humanURL: https://inference-docs.cerebras.ai
+  baseURL: https://api.cerebras.ai
+  tags:
+  - Chat
+  properties:
+  - type: OpenAPI
+    url: openapi/cerebras-systems-chat-api-openapi.yml
+  - type: APIReference
+    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+  - type: Documentation
+    url: https://inference-docs.cerebras.ai
+  - type: ErrorCatalog
+    url: errors/cerebras-systems-problem-types.yml
+  - type: Authentication
+    url: authentication/cerebras-systems-authentication.yml
+  - type: Conventions
+    url: conventions/cerebras-systems-conventions.yml
+  - type: DataModel
+    url: data-model/cerebras-systems-data-model.yml
+- aid: cerebras-systems:cerebras-systems-completions-api
+  name: Cerebras Systems Completions API
+  description: The Completions API from Cerebras Systems — 1 operation(s) for completions.
+  humanURL: https://inference-docs.cerebras.ai
+  baseURL: https://api.cerebras.ai
+  tags:
+  - Completions
+  properties:
+  - type: OpenAPI
+    url: openapi/cerebras-systems-completions-api-openapi.yml
+  - type: APIReference
+    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+  - type: Documentation
+    url: https://inference-docs.cerebras.ai
+  - type: ErrorCatalog
+    url: errors/cerebras-systems-problem-types.yml
+  - type: Authentication
+    url: authentication/cerebras-systems-authentication.yml
+  - type: Conventions
+    url: conventions/cerebras-systems-conventions.yml
+  - type: DataModel
+    url: data-model/cerebras-systems-data-model.yml
+- aid: cerebras-systems:cerebras-systems-models-api
+  name: Cerebras Systems Models API
+  description: The Models API from Cerebras Systems — 2 operation(s) for models.
+  humanURL: https://inference-docs.cerebras.ai
+  baseURL: https://api.cerebras.ai
+  tags:
+  - Models
+  properties:
+  - type: OpenAPI
+    url: openapi/cerebras-systems-models-api-openapi.yml
+  - type: APIReference
+    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+  - type: Documentation
+    url: https://inference-docs.cerebras.ai
+  - type: ErrorCatalog
+    url: errors/cerebras-systems-problem-types.yml
+  - type: Authentication
+    url: authentication/cerebras-systems-authentication.yml
+  - type: Conventions
+    url: conventions/cerebras-systems-conventions.yml
+  - type: DataModel
+    url: data-model/cerebras-systems-data-model.yml
+- aid: cerebras-systems:cerebras-systems-public-models-api
+  name: Cerebras Systems Public Models API
+  description: The Public Models API from Cerebras Systems — 2 operation(s) for public models.
+  humanURL: https://inference-docs.cerebras.ai
+  baseURL: https://api.cerebras.ai
+  tags:
+  - Public Models
+  properties:
+  - type: OpenAPI
+    url: openapi/cerebras-systems-public-models-api-openapi.yml
+  - type: APIReference
+    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+  - type: Documentation
+    url: https://inference-docs.cerebras.ai
+  - type: ErrorCatalog
+    url: errors/cerebras-systems-problem-types.yml
+  - type: Authentication
+    url: authentication/cerebras-systems-authentication.yml
+  - type: Conventions
+    url: conventions/cerebras-systems-conventions.yml
+  - type: DataModel
+    url: data-model/cerebras-systems-data-model.yml
+- aid: cerebras-systems:cerebras-systems-tcp-warming-api
+  name: Cerebras Systems Tcp Warming API
+  description: The Tcp Warming API from Cerebras Systems — 1 operation(s) for tcp warming.
+  humanURL: https://inference-docs.cerebras.ai
+  baseURL: https://api.cerebras.ai
+  tags:
+  - Tcp Warming
+  properties:
+  - type: OpenAPI
+    url: openapi/cerebras-systems-tcp-warming-api-openapi.yml
+  - type: APIReference
+    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+  - type: Documentation
+    url: https://inference-docs.cerebras.ai
+  - type: ErrorCatalog
+    url: errors/cerebras-systems-problem-types.yml
+  - type: Authentication
+    url: authentication/cerebras-systems-authentication.yml
+  - type: Conventions
+    url: conventions/cerebras-systems-conventions.yml
+  - type: DataModel
+    url: data-model/cerebras-systems-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: TrustCenter
+  url: security/cerebras-systems-trust-center.yml
 - type: Website
-  url: https://www.cerebras.net
+  url: https://www.cerebras.ai
+- type: DeveloperPortal
+  url: https://inference-docs.cerebras.ai
+- type: Documentation
+  url: https://inference-docs.cerebras.ai
+- type: APIReference
+  url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+- type: GettingStarted
+  url: https://inference-docs.cerebras.ai/quickstart
+- type: Support
+  url: https://inference-docs.cerebras.ai/support/overview
+- type: Blog
+  url: https://www.cerebras.ai/blog
+- type: GitHubOrganization
+  url: https://github.com/Cerebras
+- type: Pricing
+  url: https://www.cerebras.ai/pricing
+- type: SignUp
+  url: https://cloud.cerebras.ai
+- type: Login
+  url: https://cloud.cerebras.ai
+- type: TermsOfService
+  url: https://www.cerebras.ai/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.cerebras.ai/privacy-policy
+- type: StatusPage
+  url: https://status.cerebras.ai
+- type: TrustCenter
+  url: https://trust.cerebras.ai
+- type: Compliance
+  url: https://trust.cerebras.ai
+- type: Security
+  url: https://trust.cerebras.ai
+- type: ChangeLog
+  url: https://inference-docs.cerebras.ai/support/change-log
+- type: Deprecation
+  url: https://inference-docs.cerebras.ai/support/deprecation
+- type: Packages
+  url: packages/cerebras-systems-packages.yml
+- type: SDKs
+  url: packages/cerebras-systems-packages.yml
+- type: Python SDK
+  url: https://github.com/Cerebras/cerebras-cloud-sdk-python
+- type: Node.js SDK
+  url: https://github.com/Cerebras/cerebras-cloud-sdk-node
+- type: LLMsTxt
+  url: llms/cerebras-systems-llms.txt
+- type: MCPServer
+  url: mcp/cerebras-systems-mcp.yml
+- type: Authentication
+  url: authentication/cerebras-systems-authentication.yml
+- type: Conventions
+  url: conventions/cerebras-systems-conventions.yml
+- type: ErrorCatalog
+  url: errors/cerebras-systems-problem-types.yml
+- type: Conformance
+  url: conformance/cerebras-systems-conformance.yml
+- type: Lifecycle
+  url: lifecycle/cerebras-systems-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/cerebras-systems-rate-limits.yml
+- type: Plans
+  url: plans/cerebras-systems-plans.yml
+- type: Overlay
+  url: overlays/cerebras-systems-inference-overlay.yaml
+- type: DataModel
+  url: data-model/cerebras-systems-data-model.yml
+- type: DomainSecurity
+  url: security/cerebras-systems-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/cerebras-systems-agentic-access.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ChangeLog
+  url: changelog/cerebras-systems-changelog.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

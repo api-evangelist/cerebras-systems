@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.cerebras.ai/pricing
+plan_count: 3
+currency: USD
+plans:
+- name: Free Trial
+  price: 0
+  highlight: $5 in free credits; access to all public models.
+- name: Developer
+  price: 10
+  unit: starting-at
+  highlight: Self-serve pay-as-you-go; ~10x higher rate limits than the free tier.
+- name: Enterprise
+  price: null
+  unit: custom
+  highlight: Highest rate limits, dedicated support, custom model weights, and fine-tuning.
+addons:
+- name: Cerebras Code Pro
+  price: 50
+  unit: per-month
+  highlight: 24M tokens/day for coding assistants.
+- name: Cerebras Code Max
+  price: 200
+  unit: per-month
+  highlight: 120M tokens/day for coding assistants.

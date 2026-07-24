@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: searched
+source: https://inference-docs.cerebras.ai/quickstart, PyPI, npm, GitHub Cerebras org
+packages:
+- language: python
+  registry: pypi
+  name: cerebras-cloud-sdk
+  url: https://pypi.org/project/cerebras-cloud-sdk/
+  install: pip install cerebras-cloud-sdk
+  source: https://github.com/Cerebras/cerebras-cloud-sdk-python
+  import: from cerebras.cloud.sdk import Cerebras
+  official: true
+- language: javascript
+  registry: npm
+  name: "@cerebras/cerebras_cloud_sdk"
+  url: https://www.npmjs.com/package/@cerebras/cerebras_cloud_sdk
+  install: npm install @cerebras/cerebras_cloud_sdk
+  source: https://github.com/Cerebras/cerebras-cloud-sdk-node
+  import: import Cerebras from '@cerebras/cerebras_cloud_sdk';
+  official: true
+notes: >-
+  Cerebras Inference is also OpenAI-compatible, so the official openai Python and
+  Node client libraries work by setting base_url to https://api.cerebras.ai/v1
+  and the api_key to a Cerebras key (not counted as a first-party Cerebras package).

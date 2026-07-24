@@ -1,0 +1,22 @@
+{
+  "provider": "cerebras-systems",
+  "sources": [
+    "cerebras-systems-chat-api-openapi.yml",
+    "cerebras-systems-completions-api-openapi.yml",
+    "cerebras-systems-models-api-openapi.yml",
+    "cerebras-systems-public-models-api-openapi.yml",
+    "cerebras-systems-tcp-warming-api-openapi.yml"
+  ],
+  "outputs": [
+    "cerebras-systems-chat-api-openapi.yml",
+    "cerebras-systems-completions-api-openapi.yml",
+    "cerebras-systems-models-api-openapi.yml",
+    "cerebras-systems-public-models-api-openapi.yml",
+    "cerebras-systems-tcp-warming-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

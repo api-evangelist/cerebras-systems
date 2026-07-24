@@ -1,0 +1,39 @@
+generated: '2026-07-18'
+method: searched
+source: https://inference-docs.cerebras.ai/api-reference/versions, https://inference-docs.cerebras.ai/support/deprecation
+versioning:
+  scheme: request-header
+  header: X-Cerebras-Version-Patch
+  current: '1'
+  next: '2'
+  next_default_date: '2026-07-21'
+  min_test_window: 6 months
+  docs: https://inference-docs.cerebras.ai/api-reference/versions
+  guarantees:
+  - Within a given API version, existing request parameters continue to work as documented.
+  - Existing response fields remain present with the same types.
+  - Breaking changes are reserved for new API versions with advance email notice.
+deprecation:
+  policy_url: https://inference-docs.cerebras.ai/support/deprecation
+  model: Time-boxed model/parameter deprecations with named replacement and sunset date.
+  sunset_header: false
+  recent:
+  - item: disable_reasoning parameter (zai-glm-4.7)
+    announced: '2026-03-24'
+    sunset: '2026-07-21'
+    replacement: reasoning_effort="none"
+  - item: llama3.1-8b, qwen-3-235b-a22b-instruct-2507
+    announced: '2026-05-27'
+    replacement: gpt-oss-120b
+  - item: qwen-3-32b, llama-3.3-70b
+    announced: '2026-02-16'
+    replacement: gpt-oss-120b
+  - item: zai-glm-4.6
+    announced: '2026-01-20'
+    replacement: zai-glm-4.7
+preview_stages:
+  docs: https://inference-docs.cerebras.ai/support/preview-releases
+sla:
+  status_page: https://status.cerebras.ai
+status_page: https://status.cerebras.ai
+change_log: https://inference-docs.cerebras.ai/support/change-log

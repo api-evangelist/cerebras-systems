@@ -1,0 +1,20 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/cerebras-systems-chat-completions-openapi.yaml, openapi/cerebras-systems-inference-openapi-original.yml
+note: >-
+  Packaged operating instructions for the Cerebras Inference API, grounded in real
+  operationIds from the published OpenAPI. No provider-published skills/AGENTS.md were
+  found; these are generated from the spec + captured conventions/errors.
+skills:
+- file: cerebras-systems-fast-chat-completion.md
+  name: Run a fast chat completion
+  api: openapi/cerebras-systems-chat-completions-openapi.yaml
+  operations: [createChatCompletion, list_models_v1_models_get]
+- file: cerebras-systems-tool-calling.md
+  name: Chat completion with tool calling
+  api: openapi/cerebras-systems-chat-completions-openapi.yaml
+  operations: [createChatCompletion]
+- file: cerebras-systems-structured-outputs.md
+  name: Chat completion with structured JSON output
+  api: openapi/cerebras-systems-chat-completions-openapi.yaml
+  operations: [createChatCompletion]

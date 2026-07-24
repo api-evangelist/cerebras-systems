@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Cerebras Inference API
+  version: 1.0.0
+extends: openapi/cerebras-systems-inference-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: cerebras-systems
+    x-apievangelist-openai-compatible: true
+    x-apievangelist-docs: https://inference-docs.cerebras.ai
+- target: $.servers
+  update:
+  - url: https://api.cerebras.ai
+    description: Cerebras Inference API (base; OpenAI-compatible routes under /v1)
+- target: $.info
+  update:
+    x-apievangelist-rate-limits: rate-limits/cerebras-systems-rate-limits.yml
+    x-apievangelist-errors: errors/cerebras-systems-problem-types.yml
+    x-apievangelist-authentication: authentication/cerebras-systems-authentication.yml
+    x-apievangelist-conventions: conventions/cerebras-systems-conventions.yml

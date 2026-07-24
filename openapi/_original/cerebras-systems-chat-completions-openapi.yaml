@@ -1,0 +1,1447 @@
+openapi: 3.1.0
+info:
+  title: Cerebras Inference API
+  version: 1.0.0
+  description: >
+    Generate conversational responses using a structured message format with
+    roles (system, user, assistant, developer, tool). Best for chatbots,
+    assistants, and multi-turn conversations.
+servers:
+  - url: https://api.cerebras.ai
+    description: Cerebras Inference API
+security:
+  - BearerAuth: []
+paths:
+  /v1/chat/completions:
+    post:
+      operationId: createChatCompletion
+      summary: Create chat completion
+      description: >
+        Generate conversational responses using a structured message format with
+        roles (system, user, assistant, developer, tool). Best for chatbots,
+        assistants, and multi-turn conversations.
+      parameters:
+        - name: Content-Type
+          in: header
+          description: >
+            The media type of the request body. Supported values:
+            `application/json`, `application/vnd.msgpack`. Default:
+            `application/json`.
+          schema:
+            type: string
+            enum:
+              - application/json
+              - application/vnd.msgpack
+            default: application/json
+        - name: Content-Encoding
+          in: header
+          description: >
+            The compression encoding applied to the request body. When set, the
+            request body must be gzip-compressed. Can be combined with any
+            supported `Content-Type`. Supported values: `gzip`.
+          schema:
+            type: string
+            enum:
+              - gzip
+        - name: queue_threshold
+          in: header
+          description: >
+            Controls the queue time threshold for requests using the `flex` or
+            `auto` service tiers. Requests are preemptively rejected if the
+            rolling average queue time exceeds this threshold. Valid range:
+            `50`–`20000` (milliseconds). **Private Preview.**
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+            examples:
+              Default:
+                summary: Default
+                value:
+                  model: gpt-oss-120b
+                  messages:
+                    - role: user
+                      content: Hello!
+              Image Input:
+                summary: Image Input
+                value:
+                  model: gemma-4-31b
+                  messages:
+                    - role: user
+                      content:
+                        - type: text
+                          text: Describe this image in one concise sentence.
+                        - type: image_url
+                          image_url:
+                            url: data:image/png;base64,{BASE64_IMAGE}
+              Streaming:
+                summary: Streaming
+                value:
+                  model: gpt-oss-120b
+                  messages:
+                    - role: system
+                      content: You are a helpful assistant.
+                    - role: user
+                      content: Hello!
+                  stream: true
+              Tool Calling:
+                summary: Tool Calling
+                value:
+                  model: gpt-oss-120b
+                  messages:
+                    - role: user
+                      content: What is the weather like in Boston today?
+                  tools:
+                    - type: function
+                      function:
+                        name: get_current_weather
+                        description: Get the current weather in a given location
+                        parameters:
+                          type: object
+                          properties:
+                            location:
+                              type: string
+                              description: The city and state, e.g. San Francisco, CA
+                            unit:
+                              type: string
+                              enum:
+                                - celsius
+                                - fahrenheit
+                          required:
+                            - location
+                  tool_choice: auto
+      x-codeSamples:
+        - lang: python
+          label: Default
+          source: |
+            from cerebras.cloud.sdk import Cerebras
+            import os
+
+            client = Cerebras(api_key=os.environ.get("CEREBRAS_API_KEY"))
+
+            chat_completion = client.chat.completions.create(
+                model="gpt-oss-120b",
+                messages=[
+                    {"role": "user", "content": "Hello!"}
+                ],
+            )
+            print(chat_completion)
+        - lang: javascript
+          label: Default
+          source: |
+            import Cerebras from '@cerebras/cerebras_cloud_sdk';
+
+            const client = new Cerebras({
+              apiKey: process.env['CEREBRAS_API_KEY'],
+            });
+
+            async function main() {
+              const response = await client.chat.completions.create({
+                messages: [{ role: 'user', content: 'Hello!' }],
+                model: 'gpt-oss-120b',
+              });
+
+              console.log(response);
+            }
+            main();
+        - lang: bash
+          label: Default
+          source: |
+            curl https://api.cerebras.ai/v1/chat/completions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${CEREBRAS_API_KEY}" \
+              -d '{
+                "model": "gpt-oss-120b",
+                "messages": [{"role": "user", "content": "Hello!"}]
+              }'
+        - lang: python
+          label: Image Input
+          source: |
+            from cerebras.cloud.sdk import Cerebras
+            import os
+            import base64
+
+            client = Cerebras(api_key=os.environ.get("CEREBRAS_API_KEY"))
+
+            def encode_image(image_path):
+                with open(image_path, "rb") as image_file:
+                    return base64.b64encode(image_file.read()).decode("utf-8")
+
+            base64_image = encode_image("screenshot.png")
+
+            response = client.chat.completions.create(
+                model="gemma-4-31b",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": "Describe this image in one concise sentence."},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{base64_image}"
+                                },
+                            },
+                        ],
+                    }
+                ],
+            )
+
+            print(response.choices[0].message.content)
+        - lang: javascript
+          label: Image Input
+          source: |
+            import Cerebras from '@cerebras/cerebras_cloud_sdk';
+            import fs from 'fs';
+
+            const client = new Cerebras({
+              apiKey: process.env['CEREBRAS_API_KEY'],
+            });
+
+            async function main() {
+              const imageBuffer = fs.readFileSync('screenshot.png');
+              const base64Image = imageBuffer.toString('base64');
+
+              const response = await client.chat.completions.create({
+                model: 'gemma-4-31b',
+                messages: [
+                  {
+                    role: 'user',
+                    content: [
+                      { type: 'text', text: 'Describe this image in one concise sentence.' },
+                      {
+                        type: 'image_url',
+                        image_url: {
+                          url: `data:image/png;base64,${base64Image}`,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              });
+
+              console.log(response.choices[0].message.content);
+            }
+            main();
+        - lang: bash
+          label: Image Input
+          source: |
+            BASE64_IMAGE=$(base64 -i screenshot.png)
+
+            curl https://api.cerebras.ai/v1/chat/completions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${CEREBRAS_API_KEY}" \
+              -d "{
+                \"model\": \"gemma-4-31b\",
+                \"messages\": [
+                  {
+                    \"role\": \"user\",
+                    \"content\": [
+                      {\"type\": \"text\", \"text\": \"Describe this image in one concise sentence.\"},
+                      {
+                        \"type\": \"image_url\",
+                        \"image_url\": {
+                          \"url\": \"data:image/png;base64,\${BASE64_IMAGE}\"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }"
+        - lang: python
+          label: Streaming
+          source: |
+            from cerebras.cloud.sdk import Cerebras
+            import os
+
+            client = Cerebras(api_key=os.environ.get("CEREBRAS_API_KEY"))
+
+            stream = client.chat.completions.create(
+                model="gpt-oss-120b",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": "Hello!"},
+                ],
+                stream=True,
+            )
+
+            for chunk in stream:
+                if chunk.choices[0].delta.content:
+                    print(chunk.choices[0].delta.content, end="")
+        - lang: javascript
+          label: Streaming
+          source: |
+            import Cerebras from '@cerebras/cerebras_cloud_sdk';
+
+            const client = new Cerebras({
+              apiKey: process.env['CEREBRAS_API_KEY'],
+            });
+
+            async function main() {
+              const stream = await client.chat.completions.create({
+                model: 'gpt-oss-120b',
+                messages: [
+                  { role: 'system', content: 'You are a helpful assistant.' },
+                  { role: 'user', content: 'Hello!' },
+                ],
+                stream: true,
+              });
+
+              for await (const chunk of stream) {
+                if (chunk.choices[0].delta.content) {
+                  process.stdout.write(chunk.choices[0].delta.content);
+                }
+              }
+            }
+            main();
+        - lang: bash
+          label: Streaming
+          source: |
+            curl https://api.cerebras.ai/v1/chat/completions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${CEREBRAS_API_KEY}" \
+              -d '{
+                "model": "gpt-oss-120b",
+                "messages": [
+                  {"role": "system", "content": "You are a helpful assistant."},
+                  {"role": "user", "content": "Hello!"}
+                ],
+                "stream": true
+              }'
+        - lang: python
+          label: Tool Calling
+          source: |
+            from cerebras.cloud.sdk import Cerebras
+            import os
+
+            client = Cerebras(api_key=os.environ.get("CEREBRAS_API_KEY"))
+
+            tools = [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_current_weather",
+                        "description": "Get the current weather in a given location",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "location": {
+                                    "type": "string",
+                                    "description": "The city and state, e.g. San Francisco, CA",
+                                },
+                                "unit": {
+                                    "type": "string",
+                                    "enum": ["celsius", "fahrenheit"],
+                                },
+                            },
+                            "required": ["location"],
+                            "additionalProperties": False,
+                        },
+                    },
+                }
+            ]
+
+            response = client.chat.completions.create(
+                model="gpt-oss-120b",
+                messages=[
+                    {"role": "user", "content": "What's the weather like in Boston today?"}
+                ],
+                tools=tools,
+                tool_choice="auto",
+            )
+
+            print(response.choices[0].message.tool_calls)
+        - lang: javascript
+          label: Tool Calling
+          source: |
+            import Cerebras from '@cerebras/cerebras_cloud_sdk';
+
+            const client = new Cerebras({
+              apiKey: process.env['CEREBRAS_API_KEY'],
+            });
+
+            async function main() {
+              const response = await client.chat.completions.create({
+                model: 'gpt-oss-120b',
+                messages: [
+                  { role: 'user', content: "What's the weather like in Boston today?" },
+                ],
+                tools: [
+                  {
+                    type: 'function',
+                    function: {
+                      name: 'get_current_weather',
+                      description: 'Get the current weather in a given location',
+                      parameters: {
+                        type: 'object',
+                        properties: {
+                          location: {
+                            type: 'string',
+                            description: 'The city and state, e.g. San Francisco, CA',
+                          },
+                          unit: { type: 'string', enum: ['celsius', 'fahrenheit'] },
+                        },
+                        required: ['location'],
+                        additionalProperties: false,
+                      },
+                    },
+                  },
+                ],
+                tool_choice: 'auto',
+              });
+
+              console.log(response.choices[0].message.tool_calls);
+            }
+            main();
+        - lang: bash
+          label: Tool Calling
+          source: |
+            curl https://api.cerebras.ai/v1/chat/completions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${CEREBRAS_API_KEY}" \
+              -d '{
+                "model": "gpt-oss-120b",
+                "messages": [
+                  {"role": "user", "content": "What is the weather like in Boston today?"}
+                ],
+                "tools": [
+                  {
+                    "type": "function",
+                    "function": {
+                      "name": "get_current_weather",
+                      "description": "Get the current weather in a given location",
+                      "parameters": {
+                        "type": "object",
+                        "properties": {
+                          "location": {
+                            "type": "string",
+                            "description": "The city and state, e.g. San Francisco, CA"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "enum": ["celsius", "fahrenheit"]
+                          }
+                        },
+                        "required": ["location"]
+                      }
+                    }
+                  }
+                ],
+                "tool_choice": "auto"
+              }'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+              examples:
+                Default:
+                  summary: Default
+                  value:
+                    id: chatcmpl-b8d624a5-43d4-477a-8b94-61be750e2872
+                    choices:
+                      - finish_reason: stop
+                        index: 0
+                        message:
+                          role: assistant
+                          content: Hello! How can I assist you today?
+                          tool_calls: null
+                        logprobs: null
+                    created: 1775679664
+                    model: gpt-oss-120b
+                    object: chat.completion
+                    system_fingerprint: fp_4c26d27ac5dbffe28c72
+                    usage:
+                      prompt_tokens: 69
+                      completion_tokens: 45
+                      total_tokens: 114
+                Image Input:
+                  summary: Image Input
+                  value:
+                    id: chatcmpl-a941cccf-098d-4646-99ae-f93c3b8f3c96
+                    choices:
+                      - finish_reason: stop
+                        index: 0
+                        message:
+                          role: assistant
+                          content: >-
+                            A snippet of Python code defines a function to add
+                            two numbers and prints the result.
+                          tool_calls: null
+                        logprobs: null
+                    created: 1782514735
+                    model: gemma-4-31b
+                    object: chat.completion
+                    system_fingerprint: fp_b2c59c382b338de84cfc
+                    usage:
+                      prompt_tokens: 298
+                      completion_tokens: 18
+                      total_tokens: 316
+                      image_tokens: 275
+                      prompt_tokens_details:
+                        cached_tokens: 256
+                      completion_tokens_details:
+                        reasoning_tokens: 0
+                    time_info:
+                      queue_time: 0.000630072
+                      prompt_time: 0.006339716
+                      completion_time: 0.01440533
+                      total_time: 0.0919649600982666
+                      created: 1782514735.285658
+                Streaming:
+                  summary: Streaming
+                  value:
+                    id: chatcmpl-29429662-a0ae-4139-815a-be566d744aae
+                    object: chat.completion.chunk
+                    created: 1775680004
+                    model: gpt-oss-120b
+                    system_fingerprint: fp_4c26d27ac5dbffe28c72
+                    choices:
+                      - delta:
+                          content: Hello! How can I assist you today?
+                        index: 0
+                        finish_reason: stop
+                    usage:
+                      total_tokens: 108
+                      completion_tokens: 26
+                      prompt_tokens: 82
+                Tool Calling:
+                  summary: Tool Calling
+                  value:
+                    id: chatcmpl-24e60ea3-bec1-4b35-a5d5-7a62cbba5668
+                    choices:
+                      - finish_reason: tool_calls
+                        index: 0
+                        message:
+                          role: assistant
+                          content: null
+                          tool_calls:
+                            - id: efa96a7b1
+                              type: function
+                              function:
+                                name: get_current_weather
+                                arguments: '{"location":"Boston, MA","unit":"fahrenheit"}'
+                        logprobs: null
+                    created: 1775679671
+                    model: gpt-oss-120b
+                    object: chat.completion
+                    system_fingerprint: fp_4c26d27ac5dbffe28c72
+                    usage:
+                      prompt_tokens: 155
+                      completion_tokens: 88
+                      total_tokens: 243
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        API key for authentication. Obtain your key from the Cerebras Cloud
+        console and pass it as `Authorization: Bearer YOUR_API_KEY`.
+  schemas:
+    ChatCompletionRequest:
+      type: object
+      required:
+        - model
+        - messages
+      properties:
+        messages:
+          type: array
+          description: >
+            A list of messages comprising the conversation so far. Depending on
+            the model you use, different message types (modalities) are
+            supported, like text and images.
+
+            <br/>
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SystemMessage'
+              - $ref: '#/components/schemas/UserMessage'
+              - $ref: '#/components/schemas/AssistantMessage'
+              - $ref: '#/components/schemas/ToolMessage'
+              - $ref: '#/components/schemas/DeveloperMessage'
+            discriminator:
+              propertyName: role
+              mapping:
+                system: '#/components/schemas/SystemMessage'
+                user: '#/components/schemas/UserMessage'
+                assistant: '#/components/schemas/AssistantMessage'
+                tool: '#/components/schemas/ToolMessage'
+                developer: '#/components/schemas/DeveloperMessage'
+        model:
+          type: string
+          description: The ID of the model to use for generating a response.
+        clear_thinking:
+          type: boolean
+          nullable: true
+          description: >
+            Controls whether thinking content from previous conversation turns
+            is included in the prompt context.
+
+
+            - `false` - Thinking from all previous turns is preserved in the
+            conversation history. Recommended for agentic workflows where
+            reasoning from past tool-calling turns may be relevant for future
+            tool calls.
+
+            - `true` (default) - Thinking from earlier turns is excluded.
+            Recommended for general chat conversations where reasoning from past
+            turns is less relevant for performance.
+
+
+            When this parameter is not specified or set to `null`, the API
+            defaults to `clear_thinking: true`.
+
+
+            Only supported on the `zai-glm-4.7` model. For additional
+            information, see [Preserved
+            thinking](https://docs.z.ai/guides/capabilities/thinking-mode#preserved-thinking)
+            in the Z.ai documentation.
+        frequency_penalty:
+          type: number
+          nullable: true
+          minimum: -2
+          maximum: 2
+          default: 0
+          description: >
+            A number between -2.0 and 2.0. Positive values reduce the likelihood
+            of the model repeating tokens by applying a penalty proportional to
+            how frequently each token has already appeared in the generated
+            output.
+        logit_bias:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: number
+          default: null
+          description: >
+            Modify the likelihood of specified tokens appearing in the
+            completion. Accepts a JSON object that maps tokens (specified by
+            their token ID in the tokenizer) to an associated bias value from
+            -100 to 100. Mathematically, the bias is added to the logits
+            generated by the model prior to sampling. The exact effect will vary
+            per model, but values between -1 and 1 should decrease or increase
+            likelihood of selection; values like -100 or 100 should result in a
+            ban or exclusive selection of the relevant token.
+        logprobs:
+          type: boolean
+          default: false
+          description: |
+            Whether to return log probabilities of the output tokens.
+        max_completion_tokens:
+          type: integer
+          nullable: true
+          description: >
+            The maximum number of tokens that can be generated in the
+            completion, including reasoning tokens. The total length of input
+            tokens and generated tokens is limited by the model's context
+            length.
+        parallel_tool_calls:
+          type: boolean
+          nullable: true
+          default: true
+          description: >
+            Whether to enable parallel function calling during tool use. When
+            enabled (default), the model can request multiple tool calls
+            simultaneously in a single response. When disabled, only one tool
+            call is made at a time.
+        prediction:
+          type: object
+          nullable: true
+          description: >
+            Configuration for a [Predicted
+            Output](/capabilities/predicted-outputs), which can greatly speed up
+            response times when large parts of the model response are known in
+            advance. Most common when regenerating a file with mostly minor
+            changes.
+          required:
+            - type
+            - content
+          properties:
+            type:
+              type: string
+              enum:
+                - content
+              description: The type of predicted content. Always `content`.
+            content:
+              description: >
+                The content that should be matched when generating a model
+                response.
+              oneOf:
+                - type: string
+                  description: >
+                    The content used for a given Predicted Output. Typically the
+                    text of a file you are regenerating with only minor changes.
+                - type: array
+                  description: Array of text content parts.
+                  items:
+                    type: object
+                    required:
+                      - type
+                      - text
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - text
+                      text:
+                        type: string
+                        description: The text content.
+        presence_penalty:
+          type: number
+          nullable: true
+          minimum: -2
+          maximum: 2
+          default: 0
+          description: >
+            A number between -2.0 and 2.0. Positive values reduce the likelihood
+            of the model repeating tokens that have already appeared in the
+            output, encouraging the model to introduce new topics.
+        prompt_cache_key:
+          type: string
+          nullable: true
+          maxLength: 1024
+          default: null
+          description: >
+            An opaque identifier that groups related requests so they reuse the
+
+            same [prompt cache](/capabilities/prompt-caching). Requests sharing
+            the same 'prompt_cache_key' are routed together, which increases
+            cache hits and reduces time to first token.
+
+
+            Set it to a stable identifier like a conversation ID, user ID, or
+            session ID. 
+
+
+            **Requires account-level enablement. [Contact
+            us](https://www.cerebras.ai/contact) or reach out to your account
+            representative to request access.**
+        reasoning_effort:
+          type: string
+          nullable: true
+          enum:
+            - low
+            - medium
+            - high
+            - none
+          description: >
+            Controls the amount of reasoning the model performs. Supported
+            values vary by model:
+
+
+            - **gpt-oss-120b**: `low`, `medium` (default), `high`
+
+            - **zai-glm-4.7**: `none` (disables reasoning)
+
+            - **gemma-4-31b**: `none` (default), `low`, `medium`, `high` (all
+            enable reasoning equivalently). `raw` and `hidden` reasoning formats
+            are not supported.
+        response_format:
+          nullable: true
+          description: >
+            An object that controls the format of the model response.
+
+
+            Setting `{ "type": "json_schema", ... }` enables Structured Outputs,
+            which enforces schema compliance. See [Structured
+            Outputs](/capabilities/structured-outputs) for details.
+
+
+            Setting `{ "type": "json_object" }` enables legacy JSON mode, which
+            ensures the model returns valid JSON but does not enforce a specific
+            schema. To use `json_object`, include a system or user message
+            specifying the desired format. `json_object` is not compatible with
+            streaming — `stream` must be set to `false`.
+          oneOf:
+            - $ref: '#/components/schemas/ResponseFormatText'
+            - $ref: '#/components/schemas/ResponseFormatJsonSchema'
+            - $ref: '#/components/schemas/ResponseFormatJsonObject'
+        seed:
+          type: integer
+          nullable: true
+          description: >
+            If specified, the system will make a best effort to sample
+            deterministically so repeated requests with the same `seed` and
+            parameters return the same result. Determinism is not guaranteed.
+        service_tier:
+          type: string
+          nullable: true
+          default: default
+          enum:
+            - priority
+            - default
+            - auto
+            - flex
+          description: >
+            Controls request prioritization. 
+
+
+            **Note**: This feature is in **Private Preview**. For access or more
+            information, [contact us](https://www.cerebras.ai/contact) or reach
+            out to your account representative.
+
+
+            Available options:
+
+
+            - `priority` - Highest priority processing (Only available for
+            dedicated endpoints, not shared endpoints.)
+
+            - `default` - Standard priority processing
+
+            - `auto` - Automatically uses the highest available service tier
+
+            - `flex` - Lowest priority processing
+
+
+            See [Service Tiers](/capabilities/service-tiers) for more
+            information.
+        stop:
+          type: string
+          nullable: true
+          description: >
+            Up to 4 sequences where the API will stop generating further tokens.
+            The returned text will not contain the stop sequence.
+        stream:
+          type: boolean
+          nullable: true
+          description: |
+            If set to `true`, partial message deltas will be sent.
+        temperature:
+          type: number
+          nullable: true
+          minimum: 0
+          maximum: 2
+          description: >
+            Sampling temperature between 0 and 2.0. Higher values (e.g. 0.8)
+            make output more random; lower values (e.g. 0.2) make it more
+            focused and deterministic. We recommend altering this or `top_p`,
+            not both.
+        tool_choice:
+          description: >
+            Controls which (if any) tool is called by the model.
+
+
+            - `none` — no tool is called
+
+            - `auto` — (default when tools are present) the model chooses
+            whether to call a tool
+
+            - `required` — forces a tool call
+
+
+            A specific tool can be forced by passing an object specifying the
+            function name.
+          oneOf:
+            - type: string
+              enum:
+                - none
+                - auto
+                - required
+            - type: object
+              required:
+                - type
+                - function
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - function
+                function:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the function to call.
+        tools:
+          type: array
+          nullable: true
+          description: >
+            A list of tools the model may call. Use this to provide a list of
+            functions the model may generate JSON inputs for.
+
+
+            Currently, only functions are supported. Specifying tools consumes
+            prompt tokens; too many may degrade performance or hit context
+            length limits.
+          items:
+            type: object
+            required:
+              - type
+              - function
+            properties:
+              type:
+                type: string
+                enum:
+                  - function
+                description: The type of the tool. Currently only `function` is supported.
+              function:
+                type: object
+                required:
+                  - name
+                properties:
+                  name:
+                    type: string
+                    description: >
+                      The name of the function to call. Supported characters:
+                      `a-z`, `A-Z`, `0-9`, `_`, `-`. Maximum length: 64.
+                  description:
+                    type: string
+                    description: >
+                      A description of what the function does, used by the model
+                      to choose when and how to call the function.
+                  parameters:
+                    type: object
+                    description: >
+                      The parameters the function accepts, described as a JSON
+                      Schema object. Omitting parameters defines a function with
+                      an empty parameter list.
+        top_logprobs:
+          type: integer
+          nullable: true
+          minimum: 0
+          maximum: 20
+          description: >
+            An integer between 0 and 20 specifying the number of most likely
+            tokens to return at each token position, each with an associated log
+            probability. If using this parameter, `logprobs` must also be set to
+            `true`.
+        top_p:
+          type: number
+          nullable: true
+          minimum: 0
+          maximum: 1
+          description: >
+            Nucleus sampling parameter. The model considers only the tokens
+            comprising the top `top_p` probability mass (e.g. 0.1 means only the
+            tokens comprising the top 10% probability mass are considered). We
+            recommend altering this or `temperature`, not both.
+        user:
+          type: string
+          nullable: true
+          description: >
+            A unique identifier representing your end-user, which can help
+            monitor and detect abuse.
+    SystemMessage:
+      type: object
+      title: System message
+      description: >
+        Developer-provided instructions the model should follow regardless of
+        user messages.
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum:
+            - system
+          description: The role of the message author. Always `system`.
+        content:
+          description: The contents of the system message.
+          oneOf:
+            - type: string
+              description: Text content string.
+            - type: array
+              description: Array of text content parts.
+              items:
+                type: object
+                required:
+                  - type
+                  - text
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - text
+                  text:
+                    type: string
+        name:
+          type: string
+          description: >
+            An optional name for the participant. Provides the model with
+            information to differentiate between participants of the same role.
+    UserMessage:
+      type: object
+      title: User message
+      description: |
+        Messages sent by an end user, containing prompts or additional context.
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum:
+            - user
+          description: The role of the message author. Always `user`.
+        content:
+          description: |
+            The contents of the user message. Can include text and image
+            inputs. Supported content types differ by model.
+            <br/>
+          oneOf:
+            - type: string
+              description: Text content string.
+            - type: array
+              description: Array of content parts (text and/or image).
+              items:
+                oneOf:
+                  - type: object
+                    title: Text
+                    description: Text content part.
+                    required:
+                      - type
+                      - text
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - text
+                      text:
+                        type: string
+                        description: The text content.
+                  - type: object
+                    title: Image
+                    description: >
+                      Image content part. **Public Preview.** Images must be
+                      provided as base64-encoded PNG or JPEG data. HTTPS image
+                      URL ingestion is not supported yet.
+                    required:
+                      - type
+                      - image_url
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - image_url
+                      image_url:
+                        type: object
+                        required:
+                          - url
+                        properties:
+                          url:
+                            type: string
+                            description: >
+                              The image as a base64-encoded data URI. Format:
+                              `data:image/{format};base64,{data}`. Supported
+                              formats: `png`, `jpeg`. External URLs (e.g.
+                              `https://...`) are not supported.
+        name:
+          type: string
+          description: >
+            An optional name for the participant. Provides the model with
+            information to differentiate between participants of the same role.
+    AssistantMessage:
+      type: object
+      title: Assistant message
+      description: Messages sent by the model in response to user messages.
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          enum:
+            - assistant
+          description: The role of the message author. Always `assistant`.
+        content:
+          nullable: true
+          description: The contents of the assistant message.
+          oneOf:
+            - type: string
+              description: Text content string.
+            - type: array
+              description: >
+                Array of content parts. For assistant messages, only type `text`
+                is supported.
+              items:
+                type: object
+                required:
+                  - type
+                  - text
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - text
+                  text:
+                    type: string
+        name:
+          type: string
+          description: An optional name for the participant.
+        reasoning:
+          type: string
+          nullable: true
+          description: >
+            The reasoning content from the model's response. Include this when
+            passing back assistant messages that contained reasoning.
+        tool_calls:
+          type: array
+          description: Tool calls generated by the model, such as function calls.
+          items:
+            type: object
+            required:
+              - id
+              - type
+              - function
+            properties:
+              id:
+                type: string
+                description: The ID of the tool call.
+              type:
+                type: string
+                enum:
+                  - function
+                description: The type of tool. Currently only `function` is supported.
+              function:
+                type: object
+                required:
+                  - name
+                  - arguments
+                properties:
+                  name:
+                    type: string
+                    description: The name of the function to call.
+                  arguments:
+                    type: string
+                    description: >
+                      The arguments to call the function with, as generated by
+                      the model in JSON format.
+    DeveloperMessage:
+      type: object
+      title: Developer message
+      description: >
+        Developer-provided instructions the model should follow regardless of
+        user messages. For `gpt-oss-120b`, developer messages replace system
+        messages, but `system` is still accepted. Only available for the
+        `gpt-oss-120b` model.
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum:
+            - developer
+          description: The role of the message author. Always `developer`.
+        content:
+          description: The contents of the developer message.
+          oneOf:
+            - type: string
+              description: Text content string.
+            - type: array
+              description: Array of text content parts.
+              items:
+                type: object
+                required:
+                  - type
+                  - text
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - text
+                  text:
+                    type: string
+        name:
+          type: string
+          description: An optional name for the participant.
+    ToolMessage:
+      type: object
+      title: Tool message
+      description: Tool message containing the result of a tool call.
+      required:
+        - role
+        - content
+        - tool_call_id
+      properties:
+        role:
+          type: string
+          enum:
+            - tool
+          description: The role of the message author. Always `tool`.
+        content:
+          description: The contents of the tool message.
+          oneOf:
+            - type: string
+              description: Text content string.
+            - type: array
+              description: Array of text content parts.
+              items:
+                type: object
+                required:
+                  - type
+                  - text
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - text
+                  text:
+                    type: string
+        tool_call_id:
+          type: string
+          description: The tool call that this message is responding to.
+    ResponseFormatText:
+      type: object
+      title: Text
+      description: Text format (default). Generates plain text responses.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - text
+          description: The type of response format being defined. Always `text`.
+    ResponseFormatJsonSchema:
+      type: object
+      title: JSON Schema
+      description: >
+        JSON Schema format. Enforces schema compliance for structured output.
+        Recommended over `json_object` for models that support it.
+      required:
+        - type
+        - json_schema
+      properties:
+        type:
+          type: string
+          enum:
+            - json_schema
+          description: The type of response format being defined. Always `json_schema`.
+        json_schema:
+          type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+              description: An optional name for your schema.
+            description:
+              type: string
+              description: >
+                A description of the response format's purpose, used by the
+                model to determine how to generate its response.
+            schema:
+              type: object
+              description: >
+                A valid [JSON Schema](https://json-schema.org/) object that
+                defines the structure, types, and requirements for the response.
+
+
+                Supports standard JSON Schema features including types
+                (`string`, `number`, `boolean`, `integer`, `object`, `array`,
+                `enum`, `anyOf`, `null`), nested structures, required fields,
+                and `additionalProperties` (must be set to `false`).
+            strict:
+              type: boolean
+              default: false
+              description: >
+                When `true`, enforces strict adherence to the schema. The model
+                will only return fields defined in the schema and with the
+                correct types. When `false`, behaves similar to JSON mode but
+                uses the schema as a guide. Defaults to `false`.
+    ResponseFormatJsonObject:
+      type: object
+      title: JSON Object
+      description: >
+        JSON object format (legacy). Ensures valid JSON output but does not
+        enforce a specific schema. Using `json_schema` is recommended for models
+        that support it.
+
+
+        To use `json_object`, include a system or user message specifying the
+        desired format. `json_object` is not compatible with streaming —
+        `stream` must be set to `false`.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - json_object
+          description: The type of response format being defined. Always `json_object`.
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the chat completion.
+        choices:
+          type: array
+          description: >
+            A list of chat completion choices. Can be more than one if `n` is
+            greater than 1.
+          items:
+            type: object
+            properties:
+              finish_reason:
+                type: string
+                enum:
+                  - stop
+                  - length
+                  - content_filter
+                  - tool_calls
+                description: The reason the model stopped generating tokens.
+              index:
+                type: integer
+                description: The index of the choice in the list of choices.
+              logprobs:
+                type: object
+                nullable: true
+                description: Log probability information for the output tokens.
+              reasoning_logprobs:
+                type: object
+                nullable: true
+                description: >
+                  Log probability information for the reasoning tokens, if
+                  provided by the model.
+              message:
+                type: object
+                description: A chat completion message generated by the model.
+                properties:
+                  content:
+                    type: string
+                    nullable: true
+                    description: The contents of the message.
+                  role:
+                    type: string
+                    description: The role of the author of this message.
+                  reasoning:
+                    type: string
+                    description: |
+                      The model's reasoning content when using reasoning models.
+                  tool_calls:
+                    type: array
+                    nullable: true
+                    description: Tool calls the model requested in its response.
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The ID of the tool call.
+                        type:
+                          type: string
+                          enum:
+                            - function
+                          description: The type of tool call.
+                        function:
+                          type: object
+                          description: The function call details.
+                          properties:
+                            name:
+                              type: string
+                              description: The name of the function called.
+                            arguments:
+                              type: string
+                              description: >
+                                The JSON-encoded arguments supplied by the
+                                model.
+        created:
+          type: integer
+          description: Unix timestamp (in seconds) of when the completion was created.
+        model:
+          type: string
+          description: The model used for the chat completion.
+        object:
+          type: string
+          enum:
+            - chat.completion
+          description: The object type. Always `chat.completion`.
+        system_fingerprint:
+          type: string
+          description: >
+            A fingerprint for the model or backend used to generate the
+            response.
+        service_tier:
+          type: string
+          nullable: true
+          description: |
+            The service tier used for the request, or `null` if not specified.
+        service_tier_used:
+          type: string
+          nullable: true
+          enum:
+            - priority
+            - default
+            - flex
+          description: >
+            The service tier used for processing the request. Only present when
+            `service_tier` is set to `auto` in the request.
+        usage:
+          type: object
+          description: Usage statistics for the completion request.
+          properties:
+            prompt_tokens:
+              type: integer
+              description: Number of tokens in the prompt.
+            completion_tokens:
+              type: integer
+              description: Number of tokens in the generated completion.
+            total_tokens:
+              type: integer
+              description: Total number of tokens used (prompt + completion).
+            image_tokens:
+              type: integer
+              description: >
+                Number of tokens used to represent image inputs. Present for
+                requests to vision-capable models.
+            prompt_tokens_details:
+              type: object
+              description: Detailed breakdown of prompt token usage.
+              properties:
+                cached_tokens:
+                  type: integer
+                  description: >
+                    Number of prompt tokens served from the cache, reused from a
+                    previous request.
+            completion_tokens_details:
+              type: object
+              description: |
+                Breakdown of completion tokens when using Predicted Outputs.
+              properties:
+                accepted_prediction_tokens:
+                  type: integer
+                  description: |
+                    Tokens in the prediction that appeared in the completion.
+                rejected_prediction_tokens:
+                  type: integer
+                  description: >
+                    Tokens in the prediction that did not appear in the
+                    completion. Counted in total completion tokens for billing,
+                    output, and context window limits.
+                reasoning_tokens:
+                  type: integer
+                  description: Tokens spent on model reasoning, if applicable.
+        time_info:
+          type: object
+          description: Performance timing information for the request.
+          properties:
+            queue_time:
+              type: number
+              description: Time spent in queue waiting for processing (seconds).
+            prompt_time:
+              type: number
+              description: Time spent processing prompt/input tokens (seconds).
+            completion_time:
+              type: number
+              description: |
+                Time spent generating completion/output tokens (seconds).
+            total_time:
+              type: number
+              description: >
+                Total time for the entire request from submission to completion
+                (seconds).
+            created:
+              type: number
+              description: Unix timestamp of when the time_info was recorded.

@@ -1,0 +1,43 @@
+generated: '2026-07-18'
+method: searched
+source: https://inference-docs.cerebras.ai/support/rate-limits
+units: [RPM, RPH, RPD, TPM, TPH, TPD]
+model: >-
+  Whichever metric is exceeded first triggers limiting. Organizations have two
+  independent token buckets: uncached TPM (full-compute tokens) and total TPM
+  (typically 3x the uncached limit, includes cached tokens). Exceeding returns
+  429 Too Many Requests indicating which bucket was hit.
+exceeded_status: 429
+tiers:
+- tier: Free Trial
+  limits:
+  - model: gpt-oss-120b
+    limit_count: 5
+    rpm: 5
+    tpm: 30000
+    tph: 1000000
+    tpd: 1000000
+  - model: zai-glm-4.7
+    rpm: 5
+    tpm: 30000
+    tph: 1000000
+    tpd: 1000000
+  - model: gemma-4-31b
+    rpm: 5
+    tpm: 30000
+    tph: 1000000
+    tpd: 1000000
+- tier: Developer (Pay as You Go)
+  note: No hourly/daily restrictions.
+  limits:
+  - model: gpt-oss-120b
+    rpm: 1000
+    tpm: 1000000
+  - model: zai-glm-4.7
+    rpm: 500
+    tpm: 500000
+  - model: gemma-4-31b
+    rpm: 300
+    tpm: 500000
+- tier: Enterprise
+  note: Custom limits based on organization profile.

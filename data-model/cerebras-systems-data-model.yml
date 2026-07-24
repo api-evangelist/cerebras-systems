@@ -1,0 +1,51 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cerebras-systems-inference-openapi-original.yml, openapi/cerebras-systems-chat-completions-openapi.yaml
+entities:
+- name: Model
+  description: An available inference model (public or org-scoped).
+  id_field: id
+  operations: [list_models, get_model, list_public_models, get_public_model]
+- name: ChatCompletion
+  description: A generated chat response with choices, usage, and timing info.
+  operations: [createChatCompletion]
+- name: Completion
+  description: A generated text completion from a prompt.
+  operations: [createCompletion]
+- name: Message
+  description: A role-tagged message (system, user, assistant, developer, tool) within a chat request.
+- name: Choice
+  description: A single generated option inside a ChatCompletion/Completion.
+- name: Usage
+  description: Token accounting (prompt_tokens, completion_tokens, total_tokens).
+- name: ToolCall
+  description: A function/tool invocation emitted by the model.
+relationships:
+- from: ChatCompletion
+  to: Choice
+  kind: has_many
+  via: choices
+- from: ChatCompletion
+  to: Usage
+  kind: has_one
+  via: usage
+- from: ChatCompletion
+  to: Model
+  kind: belongs_to
+  via: model
+- from: Choice
+  to: Message
+  kind: has_one
+  via: message
+- from: Message
+  to: ToolCall
+  kind: has_many
+  via: tool_calls
+- from: Completion
+  to: Choice
+  kind: has_many
+  via: choices
+- from: Completion
+  to: Model
+  kind: belongs_to
+  via: model

@@ -1,0 +1,62 @@
+generated: '2026-07-18'
+method: searched
+source: https://inference-docs.cerebras.ai/support/error
+format: http-status
+note: >-
+  Cerebras returns standard HTTP status codes with a JSON error body; it does not
+  advertise RFC 9457 application/problem+json. Error types below mirror the SDK
+  exception classes documented in the error reference. Validation errors moved from
+  422 to 400 on 2026-04-24.
+envelope:
+  media_type: application/json
+  shape: '{ "error": { "message": string, "type": string, "code": string|null, "param": string|null } }'
+problems:
+- status: 400
+  type: BadRequestError
+  title: Invalid request parameters or malformed data
+  remediation: Verify request syntax and parameter values (also returned for invalid base64 image URIs, unsupported HTTPS image URLs, and non-multimodal models receiving image input).
+- status: 401
+  type: AuthenticationError
+  title: Missing or invalid API credentials
+  remediation: Check the Authorization bearer token / API key configuration.
+- status: 402
+  type: PaymentRequired
+  title: Account billing issue
+  remediation: Update payment method or resolve account status.
+- status: 403
+  type: PermissionDeniedError
+  title: Insufficient permissions for resource
+  remediation: Verify account access level.
+- status: 404
+  type: NotFoundError
+  title: Requested resource does not exist
+  remediation: Confirm the model name or endpoint exists.
+- status: 413
+  type: ContentTooLarge
+  title: Payload exceeds size limits
+  remediation: Reduce request size or image count/resolution.
+- status: 422
+  type: UnprocessableEntityError
+  title: Unprocessable request content
+  remediation: Review request format and values (legacy validation error; superseded by 400 as of 2026-04-24).
+- status: 429
+  type: RateLimitError
+  title: Too many requests in time window
+  remediation: Implement exponential backoff; inspect which token bucket (uncached vs total) was exceeded.
+- status: 500
+  type: InternalServerError
+  title: Server-side processing failure
+  remediation: Retry with exponential backoff.
+- status: 503
+  type: ServiceUnavailable
+  title: Service temporarily unavailable
+  remediation: Retry after a delay.
+- status: null
+  type: APIConnectionError
+  title: Cannot reach the API endpoint
+  remediation: Verify network connectivity (SDK-side, no HTTP status).
+retry_defaults:
+  auto_retried: [408, 429, 500, 502, 503, 504, connection-errors]
+  max_retries: 2
+  backoff: exponential
+  request_timeout_seconds: 60
