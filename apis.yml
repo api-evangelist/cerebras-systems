@@ -164,6 +164,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/cerebras-systems/overview
 - type: TrustCenter
   url: security/cerebras-systems-trust-center.yml
 - type: Website
