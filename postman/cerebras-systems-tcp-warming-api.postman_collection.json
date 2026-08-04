@@ -1,0 +1,122 @@
+{
+  "info": {
+    "_postman_id": "d9cf22a5-e5ff-499d-ab7e-c9ac3cd85454",
+    "name": "Cerebras Inference Chat Tcp Warming API",
+    "description": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:18:46.000Z",
+    "updatedAt": "2026-07-28T01:18:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d9cf22a5-e5ff-499d-ab7e-c9ac3cd85454"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "tcp_warming",
+          "item": [
+            {
+              "name": "Tcp Warming",
+              "id": "33b16829-0989-4d4d-b763-467b84b2cc72",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/tcp_warming",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "tcp_warming"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "id": "b3b44e79-06fd-4a73-86c3-44ebd8b8ca43",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tcp_warming",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tcp_warming"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{}",
+                  "createdAt": "2026-07-28T01:18:47.000Z",
+                  "updatedAt": "2026-07-28T01:18:47.000Z",
+                  "uid": "35240-b3b44e79-06fd-4a73-86c3-44ebd8b8ca43"
+                }
+              ],
+              "createdAt": "2026-07-28T01:18:47.000Z",
+              "updatedAt": "2026-07-28T01:18:47.000Z",
+              "uid": "35240-33b16829-0989-4d4d-b763-467b84b2cc72"
+            }
+          ],
+          "id": "e07c5293-102c-4338-a52f-562bd35fe6be",
+          "createdAt": "2026-07-28T01:18:46.000Z",
+          "updatedAt": "2026-07-28T01:18:46.000Z",
+          "uid": "35240-e07c5293-102c-4338-a52f-562bd35fe6be"
+        }
+      ],
+      "id": "550d5876-44d2-4dfb-813e-fa3830b5a4a2",
+      "createdAt": "2026-07-28T01:18:46.000Z",
+      "updatedAt": "2026-07-28T01:18:46.000Z",
+      "uid": "35240-550d5876-44d2-4dfb-813e-fa3830b5a4a2"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.cerebras.ai"
+    }
+  ]
+}

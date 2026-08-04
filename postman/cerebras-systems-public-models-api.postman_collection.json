@@ -1,0 +1,419 @@
+{
+  "info": {
+    "_postman_id": "ee10c150-3a74-4fcd-af8f-38f4a969abe7",
+    "name": "Cerebras Inference Chat Public Models API",
+    "description": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:18:45.000Z",
+    "updatedAt": "2026-07-28T01:18:45.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ee10c150-3a74-4fcd-af8f-38f4a969abe7"
+  },
+  "item": [
+    {
+      "name": "public",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "models",
+              "item": [
+                {
+                  "name": "{model_id}",
+                  "item": [
+                    {
+                      "name": "Retrieve a specific model",
+                      "id": "1bbb53b2-e3c8-4a88-8d29-f842e1ab4f5f",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "X-Amz-Cf-Id",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "CF-RAY",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/public/v1/models/:model_id?format=default",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "public",
+                            "v1",
+                            "models",
+                            ":model_id"
+                          ],
+                          "query": [
+                            {
+                              "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'",
+                              "key": "format",
+                              "value": "default"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "12a00ab3-5811-4cf9-b04d-1119a6619b94",
+                              "key": "model_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Retrieve a specific publicly available model by ID (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs."
+                      },
+                      "response": [
+                        {
+                          "id": "7cc568d8-5d90-4c6c-abdf-8826d13a8eb6",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "X-Amz-Cf-Id",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "CF-RAY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/public/v1/models/:model_id?format=default",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "public",
+                                "v1",
+                                "models",
+                                ":model_id"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'",
+                                  "key": "format",
+                                  "value": "default"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "model_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"created\": \"<integer>\",\n  \"owned_by\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing\": {\n    \"prompt\": \"00007289094623618258\",\n    \"completion\": \"-000000000029706407\"\n  },\n  \"capabilities\": {\n    \"function_calling\": false,\n    \"json_mode\": false,\n    \"parallel_tool_calls\": false,\n    \"reasoning\": false,\n    \"response_format\": false,\n    \"streaming\": true,\n    \"structured_outputs\": false,\n    \"tool_choice\": false,\n    \"tools\": false,\n    \"vision\": false\n  },\n  \"supported_parameters\": {\n    \"frequency_penalty\": false,\n    \"logit_bias\": false,\n    \"logprobs\": false,\n    \"max_completion_tokens\": true,\n    \"presence_penalty\": false,\n    \"repetition_penalty\": false,\n    \"seed\": true,\n    \"stop\": true,\n    \"temperature\": true,\n    \"top_logprobs\": false,\n    \"top_p\": true\n  },\n  \"architecture\": {\n    \"modality\": \"text+vision\",\n    \"tokenizer\": \"<string>\",\n    \"instruct_type\": \"<string>\"\n  },\n  \"limits\": {\n    \"max_context_length\": \"<integer>\",\n    \"max_completion_tokens\": \"<integer>\",\n    \"requests_per_minute\": \"<integer>\",\n    \"tokens_per_minute\": \"<integer>\"\n  },\n  \"datacenter_locations\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"deprecated\": false,\n  \"hugging_face_id\": \"<string>\",\n  \"object\": \"model\",\n  \"preview\": false,\n  \"quantization\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:18:46.000Z",
+                          "updatedAt": "2026-07-28T01:18:46.000Z",
+                          "uid": "35240-7cc568d8-5d90-4c6c-abdf-8826d13a8eb6"
+                        },
+                        {
+                          "id": "c1afdd5a-0868-46a4-9f76-79b3be6c4fec",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "X-Amz-Cf-Id",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "CF-RAY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/public/v1/models/:model_id?format=default",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "public",
+                                "v1",
+                                "models",
+                                ":model_id"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'",
+                                  "key": "format",
+                                  "value": "default"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "model_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T01:18:46.000Z",
+                          "updatedAt": "2026-07-28T01:18:46.000Z",
+                          "uid": "35240-c1afdd5a-0868-46a4-9f76-79b3be6c4fec"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:18:46.000Z",
+                      "updatedAt": "2026-07-28T01:18:46.000Z",
+                      "uid": "35240-1bbb53b2-e3c8-4a88-8d29-f842e1ab4f5f"
+                    }
+                  ],
+                  "id": "9025e045-6a03-4f28-b188-f366a05c6fc0",
+                  "createdAt": "2026-07-28T01:18:46.000Z",
+                  "updatedAt": "2026-07-28T01:18:46.000Z",
+                  "uid": "35240-9025e045-6a03-4f28-b188-f366a05c6fc0"
+                },
+                {
+                  "name": "List all available models",
+                  "id": "d1c73530-0fd1-4d32-85a5-881117c5e0f9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "X-Amz-Cf-Id",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "CF-RAY",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/public/v1/models?format=default",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "public",
+                        "v1",
+                        "models"
+                      ],
+                      "query": [
+                        {
+                          "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'",
+                          "key": "format",
+                          "value": "default"
+                        }
+                      ]
+                    },
+                    "description": "List all publicly available models (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs."
+                  },
+                  "response": [
+                    {
+                      "id": "206362fc-e344-4d60-b205-b3869316db78",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "X-Amz-Cf-Id",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "CF-RAY",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/public/v1/models?format=default",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "public",
+                            "v1",
+                            "models"
+                          ],
+                          "query": [
+                            {
+                              "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'",
+                              "key": "format",
+                              "value": "default"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"created\": \"<integer>\",\n      \"owned_by\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"pricing\": {\n        \"prompt\": \"0000904409723.476462\",\n        \"completion\": \"0000000000065415\"\n      },\n      \"capabilities\": {\n        \"function_calling\": false,\n        \"json_mode\": false,\n        \"parallel_tool_calls\": false,\n        \"reasoning\": false,\n        \"response_format\": false,\n        \"streaming\": true,\n        \"structured_outputs\": false,\n        \"tool_choice\": false,\n        \"tools\": false,\n        \"vision\": false\n      },\n      \"supported_parameters\": {\n        \"frequency_penalty\": false,\n        \"logit_bias\": false,\n        \"logprobs\": false,\n        \"max_completion_tokens\": true,\n        \"presence_penalty\": false,\n        \"repetition_penalty\": false,\n        \"seed\": true,\n        \"stop\": true,\n        \"temperature\": true,\n        \"top_logprobs\": false,\n        \"top_p\": true\n      },\n      \"architecture\": {\n        \"modality\": \"text\",\n        \"tokenizer\": \"<string>\",\n        \"instruct_type\": \"<string>\"\n      },\n      \"limits\": {\n        \"max_context_length\": \"<integer>\",\n        \"max_completion_tokens\": \"<integer>\",\n        \"requests_per_minute\": \"<integer>\",\n        \"tokens_per_minute\": \"<integer>\"\n      },\n      \"datacenter_locations\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"deprecated\": false,\n      \"hugging_face_id\": \"<string>\",\n      \"object\": \"model\",\n      \"preview\": false,\n      \"quantization\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"created\": \"<integer>\",\n      \"owned_by\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"pricing\": {\n        \"prompt\": \"082539148.7878058372\",\n        \"completion\": \"00174003677671465\"\n      },\n      \"capabilities\": {\n        \"function_calling\": false,\n        \"json_mode\": false,\n        \"parallel_tool_calls\": false,\n        \"reasoning\": false,\n        \"response_format\": false,\n        \"streaming\": true,\n        \"structured_outputs\": false,\n        \"tool_choice\": false,\n        \"tools\": false,\n        \"vision\": false\n      },\n      \"supported_parameters\": {\n        \"frequency_penalty\": false,\n        \"logit_bias\": false,\n        \"logprobs\": false,\n        \"max_completion_tokens\": true,\n        \"presence_penalty\": false,\n        \"repetition_penalty\": false,\n        \"seed\": true,\n        \"stop\": true,\n        \"temperature\": true,\n        \"top_logprobs\": false,\n        \"top_p\": true\n      },\n      \"architecture\": {\n        \"modality\": \"text+vision\",\n        \"tokenizer\": \"<string>\",\n        \"instruct_type\": \"<string>\"\n      },\n      \"limits\": {\n        \"max_context_length\": \"<integer>\",\n        \"max_completion_tokens\": \"<integer>\",\n        \"requests_per_minute\": \"<integer>\",\n        \"tokens_per_minute\": \"<integer>\"\n      },\n      \"datacenter_locations\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"deprecated\": false,\n      \"hugging_face_id\": \"<string>\",\n      \"object\": \"model\",\n      \"preview\": false,\n      \"quantization\": \"<string>\"\n    }\n  ],\n  \"object\": \"list\"\n}",
+                      "createdAt": "2026-07-28T01:18:46.000Z",
+                      "updatedAt": "2026-07-28T01:18:46.000Z",
+                      "uid": "35240-206362fc-e344-4d60-b205-b3869316db78"
+                    },
+                    {
+                      "id": "5cbffaeb-5472-488a-8e80-8ba5d8d9986e",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "X-Amz-Cf-Id",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "CF-RAY",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/public/v1/models?format=default",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "public",
+                            "v1",
+                            "models"
+                          ],
+                          "query": [
+                            {
+                              "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'",
+                              "key": "format",
+                              "value": "default"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T01:18:46.000Z",
+                      "updatedAt": "2026-07-28T01:18:46.000Z",
+                      "uid": "35240-5cbffaeb-5472-488a-8e80-8ba5d8d9986e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:18:46.000Z",
+                  "updatedAt": "2026-07-28T01:18:46.000Z",
+                  "uid": "35240-d1c73530-0fd1-4d32-85a5-881117c5e0f9"
+                }
+              ],
+              "id": "a35396af-e9e1-477b-aae0-ec5ffadca420",
+              "createdAt": "2026-07-28T01:18:46.000Z",
+              "updatedAt": "2026-07-28T01:18:46.000Z",
+              "uid": "35240-a35396af-e9e1-477b-aae0-ec5ffadca420"
+            }
+          ],
+          "id": "e415272e-9429-4569-8222-c90c7314dc06",
+          "createdAt": "2026-07-28T01:18:46.000Z",
+          "updatedAt": "2026-07-28T01:18:46.000Z",
+          "uid": "35240-e415272e-9429-4569-8222-c90c7314dc06"
+        }
+      ],
+      "id": "2c9fe6a4-1995-4525-8dfe-ed5fcc2a1867",
+      "createdAt": "2026-07-28T01:18:46.000Z",
+      "updatedAt": "2026-07-28T01:18:46.000Z",
+      "uid": "35240-2c9fe6a4-1995-4525-8dfe-ed5fcc2a1867"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.cerebras.ai"
+    }
+  ]
+}

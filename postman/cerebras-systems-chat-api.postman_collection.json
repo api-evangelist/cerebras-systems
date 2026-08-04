@@ -1,0 +1,182 @@
+{
+  "info": {
+    "_postman_id": "993e952b-b257-41fd-9a75-3ee50cf85726",
+    "name": "Cerebras Inference Chat API",
+    "description": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:18:42.000Z",
+    "updatedAt": "2026-07-28T01:18:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-993e952b-b257-41fd-9a75-3ee50cf85726"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "chat",
+          "item": [
+            {
+              "name": "completions",
+              "item": [
+                {
+                  "name": "Create chat completion",
+                  "id": "57ee2b5e-bb80-4e45-b44c-8a9277f6cab8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "description": "The compression encoding applied to the request body. When set, the request body must be gzip-compressed. Can be combined with any supported `Content-Type`. Supported values: `gzip`.\n",
+                        "key": "Content-Encoding",
+                        "value": "gzip"
+                      },
+                      {
+                        "description": "Controls the queue time threshold for requests using the `flex` or `auto` service tiers. Requests are preemptively rejected if the rolling average queue time exceeds this threshold. Valid range: `50`\u2013`20000` (milliseconds). **Private Preview.**\n",
+                        "key": "queue_threshold",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"role\": \"system\",\n      \"content\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"clear_thinking\": \"<boolean>\",\n  \"frequency_penalty\": 0,\n  \"logit_bias\": null,\n  \"logprobs\": false,\n  \"max_completion_tokens\": \"<integer>\",\n  \"parallel_tool_calls\": true,\n  \"prediction\": {\n    \"type\": \"content\",\n    \"content\": \"<string>\"\n  },\n  \"presence_penalty\": 0,\n  \"prompt_cache_key\": null,\n  \"reasoning_effort\": \"high\",\n  \"response_format\": {\n    \"type\": \"text\"\n  },\n  \"seed\": \"<integer>\",\n  \"service_tier\": \"default\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"temperature\": \"<number>\",\n  \"tool_choice\": \"auto\",\n  \"tools\": [\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    },\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    }\n  ],\n  \"top_logprobs\": \"<integer>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/chat/completions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "chat",
+                        "completions"
+                      ]
+                    },
+                    "description": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "11946320-bc0a-4906-8513-22f5f03b8a79",
+                      "name": "Successful response",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "The compression encoding applied to the request body. When set, the request body must be gzip-compressed. Can be combined with any supported `Content-Type`. Supported values: `gzip`.\n",
+                            "key": "Content-Encoding",
+                            "value": "gzip"
+                          },
+                          {
+                            "description": "Controls the queue time threshold for requests using the `flex` or `auto` service tiers. Requests are preemptively rejected if the rolling average queue time exceeds this threshold. Valid range: `50`\u2013`20000` (milliseconds). **Private Preview.**\n",
+                            "key": "queue_threshold",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"role\": \"system\",\n      \"content\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"clear_thinking\": \"<boolean>\",\n  \"frequency_penalty\": 0,\n  \"logit_bias\": null,\n  \"logprobs\": false,\n  \"max_completion_tokens\": \"<integer>\",\n  \"parallel_tool_calls\": true,\n  \"prediction\": {\n    \"type\": \"content\",\n    \"content\": \"<string>\"\n  },\n  \"presence_penalty\": 0,\n  \"prompt_cache_key\": null,\n  \"reasoning_effort\": \"high\",\n  \"response_format\": {\n    \"type\": \"text\"\n  },\n  \"seed\": \"<integer>\",\n  \"service_tier\": \"default\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"temperature\": \"<number>\",\n  \"tool_choice\": \"auto\",\n  \"tools\": [\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    },\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    }\n  ],\n  \"top_logprobs\": \"<integer>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/chat/completions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "chat",
+                            "completions"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"choices\": [\n    {\n      \"finish_reason\": \"stop\",\n      \"index\": \"<integer>\",\n      \"logprobs\": {},\n      \"reasoning_logprobs\": {},\n      \"message\": {\n        \"content\": \"<string>\",\n        \"role\": \"<string>\",\n        \"reasoning\": \"<string>\",\n        \"tool_calls\": [\n          {\n            \"id\": \"<string>\",\n            \"type\": \"function\",\n            \"function\": {\n              \"name\": \"<string>\",\n              \"arguments\": \"<string>\"\n            }\n          },\n          {\n            \"id\": \"<string>\",\n            \"type\": \"function\",\n            \"function\": {\n              \"name\": \"<string>\",\n              \"arguments\": \"<string>\"\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"finish_reason\": \"length\",\n      \"index\": \"<integer>\",\n      \"logprobs\": {},\n      \"reasoning_logprobs\": {},\n      \"message\": {\n        \"content\": \"<string>\",\n        \"role\": \"<string>\",\n        \"reasoning\": \"<string>\",\n        \"tool_calls\": [\n          {\n            \"id\": \"<string>\",\n            \"type\": \"function\",\n            \"function\": {\n              \"name\": \"<string>\",\n              \"arguments\": \"<string>\"\n            }\n          },\n          {\n            \"id\": \"<string>\",\n            \"type\": \"function\",\n            \"function\": {\n              \"name\": \"<string>\",\n              \"arguments\": \"<string>\"\n            }\n          }\n        ]\n      }\n    }\n  ],\n  \"created\": \"<integer>\",\n  \"model\": \"<string>\",\n  \"object\": \"chat.completion\",\n  \"system_fingerprint\": \"<string>\",\n  \"service_tier\": \"<string>\",\n  \"service_tier_used\": \"default\",\n  \"usage\": {\n    \"prompt_tokens\": \"<integer>\",\n    \"completion_tokens\": \"<integer>\",\n    \"total_tokens\": \"<integer>\",\n    \"image_tokens\": \"<integer>\",\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": \"<integer>\"\n    },\n    \"completion_tokens_details\": {\n      \"accepted_prediction_tokens\": \"<integer>\",\n      \"rejected_prediction_tokens\": \"<integer>\",\n      \"reasoning_tokens\": \"<integer>\"\n    }\n  },\n  \"time_info\": {\n    \"queue_time\": \"<number>\",\n    \"prompt_time\": \"<number>\",\n    \"completion_time\": \"<number>\",\n    \"total_time\": \"<number>\",\n    \"created\": \"<number>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:18:43.000Z",
+                      "updatedAt": "2026-07-28T01:18:43.000Z",
+                      "uid": "35240-11946320-bc0a-4906-8513-22f5f03b8a79"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:18:43.000Z",
+                  "updatedAt": "2026-07-28T01:18:43.000Z",
+                  "uid": "35240-57ee2b5e-bb80-4e45-b44c-8a9277f6cab8"
+                }
+              ],
+              "id": "34e66681-50ee-450c-9386-b602cbcdd94e",
+              "createdAt": "2026-07-28T01:18:43.000Z",
+              "updatedAt": "2026-07-28T01:18:43.000Z",
+              "uid": "35240-34e66681-50ee-450c-9386-b602cbcdd94e"
+            }
+          ],
+          "id": "a24f5dc3-a09b-48ed-90d7-f5c40d1165d6",
+          "createdAt": "2026-07-28T01:18:43.000Z",
+          "updatedAt": "2026-07-28T01:18:43.000Z",
+          "uid": "35240-a24f5dc3-a09b-48ed-90d7-f5c40d1165d6"
+        }
+      ],
+      "id": "cf02c590-7ab0-4189-a461-b27020a7e472",
+      "createdAt": "2026-07-28T01:18:43.000Z",
+      "updatedAt": "2026-07-28T01:18:43.000Z",
+      "uid": "35240-cf02c590-7ab0-4189-a461-b27020a7e472"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.cerebras.ai"
+    }
+  ]
+}

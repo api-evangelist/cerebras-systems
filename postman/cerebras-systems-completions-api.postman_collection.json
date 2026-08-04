@@ -1,0 +1,243 @@
+{
+  "info": {
+    "_postman_id": "260ac5af-31fe-49dd-84af-b54decf660b6",
+    "name": "Cerebras Inference Chat Completions API",
+    "description": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:18:43.000Z",
+    "updatedAt": "2026-07-28T01:18:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-260ac5af-31fe-49dd-84af-b54decf660b6"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "completions",
+          "item": [
+            {
+              "name": "Completions",
+              "id": "b940cc59-b22f-446c-825d-4617455044c3",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "CF-RAY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "X-delay-time",
+                    "value": "<number>"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"best_of\": \"<integer>\",\n  \"echo\": \"<boolean>\",\n  \"frequency_penalty\": \"<number>\",\n  \"grammar_root\": \"<string>\",\n  \"logit_bias\": {\n    \"doce3\": \"<number>\",\n    \"occaecat96\": \"<number>\",\n    \"deserunt_2b\": \"<number>\"\n  },\n  \"logprobs\": \"<integer>\",\n  \"max_tokens\": \"<integer>\",\n  \"min_tokens\": \"<integer>\",\n  \"n\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"prompt_cache_key\": \"<string>\",\n  \"reasoning_format\": \"parsed\",\n  \"return_raw_tokens\": \"<boolean>\",\n  \"seed\": \"<integer>\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\"\n  },\n  \"suffix\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/completions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "completions"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "id": "3100ba13-d3cf-40e1-bda4-c6aa1b83fa9f",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "X-Amz-Cf-Id",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "CF-RAY",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "X-delay-time",
+                        "value": "<number>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"best_of\": \"<integer>\",\n  \"echo\": \"<boolean>\",\n  \"frequency_penalty\": \"<number>\",\n  \"grammar_root\": \"<string>\",\n  \"logit_bias\": {\n    \"doce3\": \"<number>\",\n    \"occaecat96\": \"<number>\",\n    \"deserunt_2b\": \"<number>\"\n  },\n  \"logprobs\": \"<integer>\",\n  \"max_tokens\": \"<integer>\",\n  \"min_tokens\": \"<integer>\",\n  \"n\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"prompt_cache_key\": \"<string>\",\n  \"reasoning_format\": \"parsed\",\n  \"return_raw_tokens\": \"<boolean>\",\n  \"seed\": \"<integer>\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\"\n  },\n  \"suffix\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/completions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "completions"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"choices\": [\n    {\n      \"index\": \"<integer>\",\n      \"finish_reason\": \"tool_calls\",\n      \"logprobs\": {\n        \"text_offset\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"token_logprobs\": [\n          \"<number>\",\n          \"<number>\"\n        ],\n        \"tokens\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"top_logprobs\": [\n          {\n            \"consequat_3\": \"<number>\",\n            \"in_\": \"<number>\"\n          },\n          {\n            \"elitd\": \"<number>\",\n            \"autef05\": \"<number>\"\n          }\n        ]\n      },\n      \"text\": \"<string>\",\n      \"tokens\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  ],\n  \"created\": \"<integer>\",\n  \"model\": \"<string>\",\n  \"system_fingerprint\": \"<string>\",\n  \"object\": \"<string>\",\n  \"time_info\": {\n    \"completion_time\": \"<number>\",\n    \"created\": \"<number>\",\n    \"prompt_time\": \"<number>\",\n    \"queue_time\": \"<number>\",\n    \"total_time\": \"<number>\"\n  },\n  \"usage\": {\n    \"completion_tokens\": 0,\n    \"completion_tokens_details\": {\n      \"accepted_prediction_tokens\": \"<integer>\",\n      \"reasoning_tokens\": \"<integer>\",\n      \"rejected_prediction_tokens\": \"<integer>\"\n    },\n    \"image_tokens\": \"<integer>\",\n    \"prompt_tokens\": 0,\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": 0\n    },\n    \"total_tokens\": 0\n  }\n}",
+                  "createdAt": "2026-07-28T01:18:44.000Z",
+                  "updatedAt": "2026-07-28T01:18:44.000Z",
+                  "uid": "35240-3100ba13-d3cf-40e1-bda4-c6aa1b83fa9f"
+                },
+                {
+                  "id": "e68fd484-cb40-4dbf-b8fa-a612abe48b8d",
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "X-Amz-Cf-Id",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "CF-RAY",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "X-delay-time",
+                        "value": "<number>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"best_of\": \"<integer>\",\n  \"echo\": \"<boolean>\",\n  \"frequency_penalty\": \"<number>\",\n  \"grammar_root\": \"<string>\",\n  \"logit_bias\": {\n    \"doce3\": \"<number>\",\n    \"occaecat96\": \"<number>\",\n    \"deserunt_2b\": \"<number>\"\n  },\n  \"logprobs\": \"<integer>\",\n  \"max_tokens\": \"<integer>\",\n  \"min_tokens\": \"<integer>\",\n  \"n\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"prompt_cache_key\": \"<string>\",\n  \"reasoning_format\": \"parsed\",\n  \"return_raw_tokens\": \"<boolean>\",\n  \"seed\": \"<integer>\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\"\n  },\n  \"suffix\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/completions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "completions"
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T01:18:44.000Z",
+                  "updatedAt": "2026-07-28T01:18:44.000Z",
+                  "uid": "35240-e68fd484-cb40-4dbf-b8fa-a612abe48b8d"
+                }
+              ],
+              "createdAt": "2026-07-28T01:18:44.000Z",
+              "updatedAt": "2026-07-28T01:18:44.000Z",
+              "uid": "35240-b940cc59-b22f-446c-825d-4617455044c3"
+            }
+          ],
+          "id": "6a7affa5-9091-4dca-9d8b-45e2bd927b7b",
+          "createdAt": "2026-07-28T01:18:44.000Z",
+          "updatedAt": "2026-07-28T01:18:44.000Z",
+          "uid": "35240-6a7affa5-9091-4dca-9d8b-45e2bd927b7b"
+        }
+      ],
+      "id": "47a29a64-7e57-498f-a23a-944f07a67813",
+      "createdAt": "2026-07-28T01:18:44.000Z",
+      "updatedAt": "2026-07-28T01:18:44.000Z",
+      "uid": "35240-47a29a64-7e57-498f-a23a-944f07a67813"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.cerebras.ai"
+    }
+  ]
+}
