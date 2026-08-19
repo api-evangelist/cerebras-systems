@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cerebras Inference Chat Public Models API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Public Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all available models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cerebras.ai/public/v1/models",
+            "headers": [
+              {
+                "name": "X-Amz-Cf-Id",
+                "value": ""
+              },
+              {
+                "name": "CF-RAY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'"
+              }
+            ]
+          },
+          "docs": "List all publicly available models (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs."
+        },
+        {
+          "info": {
+            "name": "Retrieve a specific model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cerebras.ai/public/v1/models/:model_id",
+            "headers": [
+              {
+                "name": "X-Amz-Cf-Id",
+                "value": ""
+              },
+              {
+                "name": "CF-RAY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "model_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific publicly available model by ID (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

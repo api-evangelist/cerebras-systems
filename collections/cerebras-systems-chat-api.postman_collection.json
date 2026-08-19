@@ -1,0 +1,174 @@
+{
+  "item": [
+    {
+      "id": "2c82b877-75b0-4445-83d5-f78c47202cb2",
+      "name": "Chat",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bc2e110a-5392-4767-a7ad-68abbb5e33f8",
+          "name": "Create chat completion",
+          "request": {
+            "name": "Create chat completion",
+            "description": {
+              "content": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "chat",
+                "completions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The compression encoding applied to the request body. When set, the request body must be gzip-compressed. Can be combined with any supported `Content-Type`. Supported values: `gzip`.\n",
+                "key": "Content-Encoding",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Controls the queue time threshold for requests using the `flex` or `auto` service tiers. Requests are preemptively rejected if the rolling average queue time exceeds this threshold. Valid range: `50`–`20000` (milliseconds). **Private Preview.**\n",
+                "key": "queue_threshold",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ],\n  \"clear_thinking\": \"<boolean>\",\n  \"frequency_penalty\": 0,\n  \"logit_bias\": null,\n  \"logprobs\": false,\n  \"max_completion_tokens\": \"<integer>\",\n  \"parallel_tool_calls\": true,\n  \"prediction\": {\n    \"type\": \"<string>\",\n    \"content\": \"<string>\"\n  },\n  \"presence_penalty\": 0,\n  \"prompt_cache_key\": null,\n  \"reasoning_effort\": \"<string>\",\n  \"response_format\": {\n    \"type\": \"<string>\"\n  },\n  \"seed\": \"<integer>\",\n  \"service_tier\": \"default\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"temperature\": \"<number>\",\n  \"tool_choice\": \"<string>\",\n  \"tools\": [\n    {\n      \"type\": \"<string>\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": \"<object>\"\n      }\n    },\n    {\n      \"type\": \"<string>\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": \"<object>\"\n      }\n    }\n  ],\n  \"top_logprobs\": \"<integer>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bdde547c-ca3d-4fa0-9f79-be0406486d84",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The media type of the request body. Supported values: `application/json`, `application/vnd.msgpack`. Default: `application/json`.\n",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The compression encoding applied to the request body. When set, the request body must be gzip-compressed. Can be combined with any supported `Content-Type`. Supported values: `gzip`.\n",
+                    "key": "Content-Encoding",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Controls the queue time threshold for requests using the `flex` or `auto` service tiers. Requests are preemptively rejected if the rolling average queue time exceeds this threshold. Valid range: `50`–`20000` (milliseconds). **Private Preview.**\n",
+                    "key": "queue_threshold",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"gpt-oss-120b\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Hello!\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"chatcmpl-b8d624a5-43d4-477a-8b94-61be750e2872\",\n  \"choices\": [\n    {\n      \"finish_reason\": \"stop\",\n      \"index\": 0,\n      \"message\": {\n        \"role\": \"assistant\",\n        \"content\": \"Hello! How can I assist you today?\",\n        \"tool_calls\": null\n      },\n      \"logprobs\": null\n    }\n  ],\n  \"created\": 1775679664,\n  \"model\": \"gpt-oss-120b\",\n  \"object\": \"chat.completion\",\n  \"system_fingerprint\": \"fp_4c26d27ac5dbffe28c72\",\n  \"usage\": {\n    \"prompt_tokens\": 69,\n    \"completion_tokens\": 45,\n    \"total_tokens\": 114\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cerebras.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "cf55b945-f213-492b-8755-b70bb37f7776",
+    "name": "Cerebras Inference Chat API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cerebras Inference Chat Models API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cerebras.ai/v1/models",
+            "headers": [
+              {
+                "name": "X-Amz-Cf-Id",
+                "value": ""
+              },
+              {
+                "name": "CF-RAY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Output format: 'default' (OpenAI-compatible), 'openrouter', or 'huggingface'"
+              }
+            ]
+          },
+          "docs": "List Models"
+        },
+        {
+          "info": {
+            "name": "Get Model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cerebras.ai/v1/models/:model_id",
+            "headers": [
+              {
+                "name": "X-Amz-Cf-Id",
+                "value": ""
+              },
+              {
+                "name": "CF-RAY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "model_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Output format: 'default' (OpenAI-compatible), 'openrouter', or 'huggingface'"
+              }
+            ]
+          },
+          "docs": "Get Model"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

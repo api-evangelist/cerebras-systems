@@ -1,0 +1,244 @@
+{
+  "item": [
+    {
+      "id": "57677dee-4e85-439a-8870-e104e88a2dde",
+      "name": "Completions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e5ff5edc-02c4-466a-b31d-9a6ff44b3a0d",
+          "name": "Completions",
+          "request": {
+            "name": "Completions",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "completions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "X-Amz-Cf-Id",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "disabled": false,
+                "key": "CF-RAY",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "disabled": false,
+                "key": "X-delay-time",
+                "value": "<number>",
+                "description": ""
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"best_of\": \"<integer>\",\n  \"echo\": \"<boolean>\",\n  \"frequency_penalty\": \"<number>\",\n  \"grammar_root\": \"<string>\",\n  \"logit_bias\": {\n    \"key_0\": \"<number>\"\n  },\n  \"logprobs\": \"<integer>\",\n  \"max_tokens\": \"<integer>\",\n  \"min_tokens\": \"<integer>\",\n  \"n\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"prompt_cache_key\": \"<string>\",\n  \"reasoning_format\": \"<string>\",\n  \"return_raw_tokens\": \"<boolean>\",\n  \"seed\": \"<integer>\",\n  \"stop\": \"<string>\",\n  \"stream\": \"<boolean>\",\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\"\n  },\n  \"suffix\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"top_p\": \"<number>\",\n  \"user\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6acc7102-931e-41d6-939c-e4f0d56b8dc4",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "CF-RAY",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-delay-time",
+                    "value": "<number>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"llama3.1-70b\",\n  \"prompt\": \"Micheael Jordan is born in \",\n  \"stream\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"choices\": [\n    {\n      \"index\": 8929,\n      \"finish_reason\": \"content_filter\",\n      \"logprobs\": {\n        \"text_offset\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"token_logprobs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tokens\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"top_logprobs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"text\": \"string\",\n      \"tokens\": [\n        406,\n        4711\n      ]\n    }\n  ],\n  \"created\": 955,\n  \"model\": \"string\",\n  \"system_fingerprint\": \"string\",\n  \"object\": \"string\",\n  \"time_info\": {\n    \"completion_time\": 0.44,\n    \"prompt_time\": 0.02,\n    \"queue_time\": 0,\n    \"total_time\": 0.46\n  },\n  \"usage\": {\n    \"completion_tokens\": 1020,\n    \"prompt_tokens\": 40,\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": 1020\n    },\n    \"total_tokens\": 1060\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3be30496-3187-4a15-aa0b-4a4fb2b94bf0",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "CF-RAY",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-delay-time",
+                    "value": "<number>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"llama3.1-70b\",\n  \"prompt\": \"Micheael Jordan is born in \",\n  \"stream\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cerebras.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3433c7e3-02f2-4b6d-95a9-8c7609f97e92",
+    "name": "Cerebras Inference Chat Completions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+      "type": "text/plain"
+    }
+  }
+}

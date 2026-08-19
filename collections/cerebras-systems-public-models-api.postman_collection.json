@@ -1,0 +1,428 @@
+{
+  "item": [
+    {
+      "id": "5e378098-ddb9-484f-968a-33d5698f57c3",
+      "name": "Public Models",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "50140462-3b4f-4971-81f1-186a00c30bfa",
+          "name": "List all available models",
+          "request": {
+            "name": "List all available models",
+            "description": {
+              "content": "List all publicly available models (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "default",
+                  "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "X-Amz-Cf-Id",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "disabled": false,
+                "key": "CF-RAY",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "381d91fa-30bf-4417-9960-cbea389f3d93",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "CF-RAY",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"created\": 8542,\n      \"owned_by\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"pricing\": {\n        \"completion\": \"0.0000001\",\n        \"prompt\": \"0.0000001\"\n      },\n      \"capabilities\": {\n        \"function_calling\": false,\n        \"json_mode\": false,\n        \"parallel_tool_calls\": false,\n        \"reasoning\": false,\n        \"response_format\": false,\n        \"streaming\": true,\n        \"structured_outputs\": false,\n        \"tool_choice\": false,\n        \"tools\": false,\n        \"vision\": false\n      },\n      \"supported_parameters\": {\n        \"frequency_penalty\": false,\n        \"logit_bias\": false,\n        \"logprobs\": false,\n        \"max_completion_tokens\": true,\n        \"presence_penalty\": false,\n        \"repetition_penalty\": false,\n        \"seed\": true,\n        \"stop\": true,\n        \"temperature\": true,\n        \"top_logprobs\": false,\n        \"top_p\": true\n      },\n      \"architecture\": {\n        \"modality\": \"text\",\n        \"tokenizer\": \"string\",\n        \"instruct_type\": \"string\"\n      },\n      \"limits\": {\n        \"max_context_length\": 7229,\n        \"max_completion_tokens\": 5331,\n        \"requests_per_minute\": 3735,\n        \"tokens_per_minute\": 8091\n      },\n      \"datacenter_locations\": [\n        \"string\",\n        \"string\"\n      ],\n      \"deprecated\": false,\n      \"hugging_face_id\": \"string\",\n      \"object\": \"model\",\n      \"preview\": false,\n      \"quantization\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"created\": 7250,\n      \"owned_by\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"pricing\": {\n        \"completion\": \"0.0000001\",\n        \"prompt\": \"0.0000001\"\n      },\n      \"capabilities\": {\n        \"function_calling\": false,\n        \"json_mode\": false,\n        \"parallel_tool_calls\": false,\n        \"reasoning\": false,\n        \"response_format\": false,\n        \"streaming\": true,\n        \"structured_outputs\": false,\n        \"tool_choice\": false,\n        \"tools\": false,\n        \"vision\": false\n      },\n      \"supported_parameters\": {\n        \"frequency_penalty\": false,\n        \"logit_bias\": false,\n        \"logprobs\": false,\n        \"max_completion_tokens\": true,\n        \"presence_penalty\": false,\n        \"repetition_penalty\": false,\n        \"seed\": true,\n        \"stop\": true,\n        \"temperature\": true,\n        \"top_logprobs\": false,\n        \"top_p\": true\n      },\n      \"architecture\": {\n        \"modality\": \"text+vision\",\n        \"tokenizer\": \"string\",\n        \"instruct_type\": \"string\"\n      },\n      \"limits\": {\n        \"max_context_length\": 7563,\n        \"max_completion_tokens\": 9175,\n        \"requests_per_minute\": 3229,\n        \"tokens_per_minute\": 5663\n      },\n      \"datacenter_locations\": [\n        \"string\",\n        \"string\"\n      ],\n      \"deprecated\": false,\n      \"hugging_face_id\": \"string\",\n      \"object\": \"model\",\n      \"preview\": false,\n      \"quantization\": \"string\"\n    }\n  ],\n  \"object\": \"list\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb192262-cac2-4aae-b9aa-783064d6c934",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "CF-RAY",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d7ffcfc0-d8c7-4051-9439-198952b8564f",
+          "name": "Retrieve a specific model",
+          "request": {
+            "name": "Retrieve a specific model",
+            "description": {
+              "content": "Retrieve a specific publicly available model by ID (modelVisibility='PUBLIC' only). Use the `format` parameter to get responses compatible with OpenRouter or HuggingFace APIs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "models",
+                ":model_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "default",
+                  "description": "Output format: 'default' (Cerebras schema), 'openrouter', or 'huggingface'"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "X-Amz-Cf-Id",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "disabled": false,
+                "key": "CF-RAY",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9be5cb68-e6d1-4064-aa70-1ae2d6fa8ff6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "CF-RAY",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"created\": 1437,\n  \"owned_by\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"pricing\": {\n    \"completion\": \"0.0000001\",\n    \"prompt\": \"0.0000001\"\n  },\n  \"capabilities\": {\n    \"function_calling\": false,\n    \"json_mode\": false,\n    \"parallel_tool_calls\": false,\n    \"reasoning\": false,\n    \"response_format\": false,\n    \"streaming\": true,\n    \"structured_outputs\": false,\n    \"tool_choice\": false,\n    \"tools\": false,\n    \"vision\": false\n  },\n  \"supported_parameters\": {\n    \"frequency_penalty\": false,\n    \"logit_bias\": false,\n    \"logprobs\": false,\n    \"max_completion_tokens\": true,\n    \"presence_penalty\": false,\n    \"repetition_penalty\": false,\n    \"seed\": true,\n    \"stop\": true,\n    \"temperature\": true,\n    \"top_logprobs\": false,\n    \"top_p\": true\n  },\n  \"architecture\": {\n    \"modality\": \"text+vision\",\n    \"tokenizer\": \"string\",\n    \"instruct_type\": \"string\"\n  },\n  \"limits\": {\n    \"max_context_length\": 7224,\n    \"max_completion_tokens\": 8500,\n    \"requests_per_minute\": 4121,\n    \"tokens_per_minute\": 1625\n  },\n  \"datacenter_locations\": [\n    \"string\",\n    \"string\"\n  ],\n  \"deprecated\": false,\n  \"hugging_face_id\": \"string\",\n  \"object\": \"model\",\n  \"preview\": false,\n  \"quantization\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82ceb73d-1f03-4b23-8fd0-2286927672c0",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-Amz-Cf-Id",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "CF-RAY",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cerebras.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "303b9b74-6f95-4922-a81d-60093a908a87",
+    "name": "Cerebras Inference Chat Public Models API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Generate conversational responses using a structured message format with roles (system, user, assistant, developer, tool). Best for chatbots, assistants, and multi-turn conversations.\n",
+      "type": "text/plain"
+    }
+  }
+}

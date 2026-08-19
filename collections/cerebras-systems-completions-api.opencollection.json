@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cerebras Inference Chat Completions API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Completions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Completions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cerebras.ai/v1/completions",
+            "headers": [
+              {
+                "name": "X-Amz-Cf-Id",
+                "value": ""
+              },
+              {
+                "name": "CF-RAY",
+                "value": ""
+              },
+              {
+                "name": "X-delay-time",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Completions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

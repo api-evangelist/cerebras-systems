@@ -2,11 +2,9 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: openapi/cerebras-systems-inference-openapi-original.yml
-note: >-
-  No official first-party hosted/remote MCP server was found for Cerebras Inference
-  as of the search date (the SDKs are OpenAI-compatible HTTP clients, not an MCP
-  server). The tool list below is a CANDIDATE derived one-per-operation from the
-  published OpenAPI, provided as a starting point for an MCP wrapper.
+note: No official first-party hosted/remote MCP server was found for Cerebras Inference as of the search
+  date (the SDKs are OpenAI-compatible HTTP clients, not an MCP server). The tool list below is a CANDIDATE
+  derived one-per-operation from the published OpenAPI, provided as a starting point for an MCP wrapper.
 server:
   name: cerebras-inference
   transport: http
@@ -29,3 +27,9 @@ tools:
 - name: get_public_model
   description: Retrieve metadata for a single public model by id.
   source_operation: openapi/cerebras-systems-inference-openapi-original.yml#get_public_model_public_v1_models__model_id__get
+deployment:
+  mode: none
+  verified: derived
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census
