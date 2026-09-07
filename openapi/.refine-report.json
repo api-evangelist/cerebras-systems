@@ -17,6 +17,13 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "cerebras-systems-chat-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cerebras-systems-completions-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cerebras-systems-models-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cerebras-systems-public-models-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cerebras-systems-tcp-warming-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }
