@@ -188,6 +188,16 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: ModelZoo
+  url: https://github.com/Cerebras/modelzoo
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cerebras-systems
+- type: Twitter
+  url: https://twitter.com/CerebrasSystems
+- type: Status
+  url: https://status.cerebras.ai
+- type: LlmsText
+  url: https://inference-docs.cerebras.ai/llms.txt
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/cerebras-systems/overview
 - type: TrustCenter
@@ -274,5 +284,3 @@ x-enrichment:
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
-x-parent: cerebras
-x-relationship: product
