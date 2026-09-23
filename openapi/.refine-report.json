@@ -1,11 +1,7 @@
 {
   "provider": "cerebras-systems",
   "sources": [
-    "cerebras-systems-chat-api-openapi.yml",
-    "cerebras-systems-completions-api-openapi.yml",
-    "cerebras-systems-models-api-openapi.yml",
-    "cerebras-systems-public-models-api-openapi.yml",
-    "cerebras-systems-tcp-warming-api-openapi.yml"
+    "_original/cerebras-systems-inference-openapi-original.yml"
   ],
   "outputs": [
     "cerebras-systems-chat-api-openapi.yml",
@@ -18,12 +14,27 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "cerebras-systems-chat-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cerebras-systems-completions-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cerebras-systems-models-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cerebras-systems-public-models-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cerebras-systems-tcp-warming-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cerebras-systems-inference-openapi-original.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cerebras-systems-inference-openapi-original.yml: tagged paths POST /v1/chat/completions -> Chat",
+    "cerebras-systems-inference-openapi-original.yml: tagged paths POST /v1/completions -> Completions",
+    "cerebras-systems-inference-openapi-original.yml: tagged paths GET /v1/models -> Models",
+    "cerebras-systems-inference-openapi-original.yml: tagged paths GET /v1/models/{model_id} -> Models",
+    "cerebras-systems-inference-openapi-original.yml: tagged paths GET /v1/tcp_warming -> Tcp Warming",
+    "cerebras-systems-inference-openapi-original.yml: declared missing tag: Chat",
+    "cerebras-systems-inference-openapi-original.yml: declared missing tag: Completions",
+    "cerebras-systems-inference-openapi-original.yml: declared missing tag: Models",
+    "cerebras-systems-inference-openapi-original.yml: declared missing tag: Public Models",
+    "cerebras-systems-inference-openapi-original.yml: declared missing tag: Tcp Warming",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/cerebras-systems-chat-completions-openapi.yaml: archived document superseded by a larger archived document",
+    "cerebras-systems-chat-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cerebras-systems-completions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cerebras-systems-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cerebras-systems-public-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cerebras-systems-tcp-warming-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
