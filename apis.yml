@@ -59,7 +59,7 @@ tags:
 - Company
 - AI Infrastructure
 - Artificial Intelligence
-- Machine-Learning
+- Machine Learning
 - Inference
 - LLM
 - Developer Tools
@@ -75,6 +75,7 @@ tags_raw:
 - Developer Tools
 - Cloud Computing
 - Semiconductors
+- Machine-Learning
 apis:
 - aid: cerebras-systems:cerebras-systems-chat-api
   name: Cerebras Systems Chat API
