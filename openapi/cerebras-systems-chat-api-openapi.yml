@@ -70,115 +70,26 @@ paths:
       - Chat
 components:
   schemas:
-    ChatCompletionResponse:
-      additionalProperties: false
-      examples:
-      - choices:
-        - finish_reason: stop
-          index: 0
-          message:
-            content: "Generative AI is a subfield of artificial intelligence that focuses on generating new, original content, such as images, music, text, or videos. These models are trained on large datasets and learn to recognize patterns, relationships, and structures within the data, allowing them to generate new content that is similar in style, tone, or characteristics to the training data. \n \n Generative AI models can be categorized into two main types: Generative Adversarial Networks (GANs) and Variational Autoencoders (VAEs). GANs consist of two neural networks: a generator and a discriminator. The generator creates new content, while the discriminator evaluates the generated content and tells the generator whether it's realistic or not. VAEs are neural networks that learn to compress and reconstruct data. \n \n Generative AI has numerous applications across various industries, including art and design, content generation, data augmentation, and recommendation systems. Some examples of Generative AI in action include Deep Dream Generator, Amper Music, and DALL-E. \n \n In summary, Generative AI is a powerful technology that enables the creation of new, original content using machine learning models. It has the potential to revolutionize various industries and create new opportunities for artists, designers, and content creators."
-            role: assistant
-        created: 1721088719
-        id: response_1721
-        model: llama3.1-8b
-        object: chat.completion
-        system_fingerprint: '88719'
-        time_info:
-          completion_time: 0.44
-          prompt_time: 0.02
-          queue_time: 0.0
-          total_time: 0.46
-        usage:
-          completion_tokens: 1020
-          prompt_tokens: 40
-          prompt_tokens_details:
-            cached_tokens: 1020
-          total_tokens: 1060
+    ValidationError:
       properties:
-        choices:
+        loc:
           items:
-            $ref: '#/components/schemas/ChatCompletionChoice'
-          minItems: 1
-          title: Choices
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
           type: array
-        created:
-          title: Created
-          type: integer
-        id:
-          title: Id
+        msg:
+          title: Message
           type: string
-        model:
-          title: Model
+        type:
+          title: Error Type
           type: string
-        object:
-          const: chat.completion
-          title: Object
-          type: string
-        service_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Service Tier
-        system_fingerprint:
-          title: System Fingerprint
-          type: string
-        time_info:
-          anyOf:
-          - $ref: '#/components/schemas/TimeInfo'
-          - type: 'null'
-        usage:
-          anyOf:
-          - $ref: '#/components/schemas/Usage'
-          - type: 'null'
       required:
-      - id
-      - choices
-      - created
-      - model
-      - system_fingerprint
-      - object
-      title: ChatCompletionResponse
-      type: object
-    ReasoningFormat:
-      enum:
-      - none
-      - parsed
-      - text_parsed
-      - raw
-      - hidden
-      title: ReasoningFormat
-      type: string
-    ChatCompletionChoice:
-      additionalProperties: false
-      properties:
-        finish_reason:
-          anyOf:
-          - enum:
-            - stop
-            - length
-            - content_filter
-            - tool_calls
-            type: string
-          - type: 'null'
-          title: Finish Reason
-        index:
-          title: Index
-          type: integer
-        logprobs:
-          anyOf:
-          - $ref: '#/components/schemas/ChatCompletionLogProbs'
-          - type: 'null'
-        message:
-          $ref: '#/components/schemas/ChatCompletionResponseMessage'
-        reasoning_logprobs:
-          anyOf:
-          - $ref: '#/components/schemas/ChatCompletionLogProbs'
-          - type: 'null'
-      required:
-      - index
-      - message
-      title: ChatCompletionChoice
+      - loc
+      - msg
+      - type
+      title: ValidationError
       type: object
     AssistantToolCall:
       additionalProperties: false
@@ -205,19 +116,48 @@ components:
       - function
       title: AssistantToolCall
       type: object
-    ChoiceObject:
+    ReasoningEffort:
+      enum:
+      - none
+      - low
+      - medium
+      - high
+      title: ReasoningEffort
+      type: string
+    ChoiceObjectFunction:
       additionalProperties: false
-      description: A choice object.
+      description: A function for a choice object.
       properties:
-        function:
-          $ref: '#/components/schemas/ChoiceObjectFunction'
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      title: ChoiceObjectFunction
+      type: object
+    ResponseFormatJSONObject:
+      additionalProperties: false
+      description: A response format for a JSON object.
+      properties:
         type:
+          const: json_object
           title: Type
           type: string
       required:
       - type
-      - function
-      title: ChoiceObject
+      title: ResponseFormatJSONObject
+      type: object
+    ResponseFormatText:
+      additionalProperties: false
+      description: A response format for text.
+      properties:
+        type:
+          const: text
+          title: Type
+          type: string
+      required:
+      - type
+      title: ResponseFormatText
       type: object
     SystemMessageRequest:
       additionalProperties: false
@@ -254,24 +194,96 @@ components:
       - content
       title: SystemMessageRequest
       type: object
-    Prediction:
-      additionalProperties: false
+    ServiceTier:
+      enum:
+      - auto
+      - default
+      - flex
+      - priority
+      title: ServiceTier
+      type: string
+    HTTPValidationError:
       properties:
-        content:
-          anyOf:
-          - type: string
-          - items:
-              $ref: '#/components/schemas/TextContent'
-            type: array
-          title: Content
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Tool:
+      additionalProperties: false
+      description: A tool object
+      properties:
+        function:
+          $ref: '#/components/schemas/FunctionObject'
         type:
-          const: content
           title: Type
           type: string
       required:
       - type
-      - content
-      title: Prediction
+      - function
+      title: Tool
+      type: object
+    ChoiceObject:
+      additionalProperties: false
+      description: A choice object.
+      properties:
+        function:
+          $ref: '#/components/schemas/ChoiceObjectFunction'
+        type:
+          title: Type
+          type: string
+      required:
+      - type
+      - function
+      title: ChoiceObject
+      type: object
+    TopLogProbs:
+      additionalProperties: false
+      properties:
+        bytes:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Bytes
+        logprob:
+          title: Logprob
+          type: number
+        token:
+          title: Token
+          type: string
+      required:
+      - token
+      - logprob
+      title: TopLogProbs
+      type: object
+    ChunkAssistantToolCall:
+      additionalProperties: false
+      description: Streaming only. Represents a function call in an assistant tool call.
+      properties:
+        function:
+          $ref: '#/components/schemas/ChunkAssistantToolCallFunction'
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        index:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Index
+        type:
+          const: function
+          title: Type
+          type: string
+      required:
+      - function
+      - type
+      title: ChunkAssistantToolCall
       type: object
     ChatChunkChoice:
       additionalProperties: false
@@ -319,314 +331,6 @@ components:
       - index
       title: ChatChunkChoice
       type: object
-    ChunkAssistantToolCall:
-      additionalProperties: false
-      description: Streaming only. Represents a function call in an assistant tool call.
-      properties:
-        function:
-          $ref: '#/components/schemas/ChunkAssistantToolCallFunction'
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Id
-        index:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Index
-        type:
-          const: function
-          title: Type
-          type: string
-      required:
-      - function
-      - type
-      title: ChunkAssistantToolCall
-      type: object
-    ChatCompletionResponseMessage:
-      additionalProperties: false
-      properties:
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reasoning
-        role:
-          enum:
-          - assistant
-          - user
-          - system
-          - tool
-          title: Role
-          type: string
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ChunkAssistantToolCall'
-            type: array
-          - type: 'null'
-          title: Tool Calls
-      required:
-      - role
-      title: ChatCompletionResponseMessage
-      type: object
-    ResponseFormatJSONObject:
-      additionalProperties: false
-      description: A response format for a JSON object.
-      properties:
-        type:
-          const: json_object
-          title: Type
-          type: string
-      required:
-      - type
-      title: ResponseFormatJSONObject
-      type: object
-    Parameters:
-      additionalProperties: true
-      description: 'Represents the parameters a function accepts.
-
-        This model is designed to be flexible to accommodate any JSON Schema.
-
-        The key-value pairs you provide will define the parameters.'
-      title: Parameters
-      type: object
-    ChatCompletionLogProbs:
-      additionalProperties: false
-      properties:
-        content:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/LogProbsContent'
-            type: array
-          - type: 'null'
-          title: Content
-        refusal:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/LogProbsContent'
-            type: array
-          - type: 'null'
-          title: Refusal
-      title: ChatCompletionLogProbs
-      type: object
-    TimeInfo:
-      additionalProperties: false
-      description: 'Time information for different phases of request processing.
-
-
-        All times are measured in seconds.'
-      examples:
-      - completion_time: 0.44
-        prompt_time: 0.02
-        queue_time: 0.0
-        total_time: 0.46
-      properties:
-        completion_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Completion Time
-        created:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Created
-        prompt_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Prompt Time
-        queue_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Queue Time
-        total_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Total Time
-      title: TimeInfo
-      type: object
-    PromptTokensDetails:
-      additionalProperties: false
-      examples:
-      - cached_tokens: 1020
-      properties:
-        cached_tokens:
-          default: 0
-          title: Cached Tokens
-          type: integer
-      title: PromptTokensDetails
-      type: object
-    Usage:
-      additionalProperties: false
-      examples:
-      - completion_tokens: 1020
-        prompt_tokens: 40
-        prompt_tokens_details:
-          cached_tokens: 1020
-        total_tokens: 1060
-      properties:
-        completion_tokens:
-          default: 0
-          title: Completion Tokens
-          type: integer
-        completion_tokens_details:
-          anyOf:
-          - $ref: '#/components/schemas/CompletionTokensDetails'
-          - type: 'null'
-        image_tokens:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Image Tokens
-        prompt_tokens:
-          default: 0
-          title: Prompt Tokens
-          type: integer
-        prompt_tokens_details:
-          anyOf:
-          - $ref: '#/components/schemas/PromptTokensDetails'
-          - type: 'null'
-        total_tokens:
-          default: 0
-          title: Total Tokens
-          type: integer
-      title: Usage
-      type: object
-    ResponseFormatJSONSchema:
-      additionalProperties: false
-      description: A response format for a JSON schema.
-      properties:
-        json_schema:
-          $ref: '#/components/schemas/JSONSchema'
-        type:
-          const: json_schema
-          title: Type
-          type: string
-      required:
-      - json_schema
-      - type
-      title: ResponseFormatJSONSchema
-      type: object
-    ChoiceObjectFunction:
-      additionalProperties: false
-      description: A function for a choice object.
-      properties:
-        name:
-          title: Name
-          type: string
-      required:
-      - name
-      title: ChoiceObjectFunction
-      type: object
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
-      type: object
-    TextContent:
-      additionalProperties: false
-      description: Text content for a message.
-      properties:
-        text:
-          title: Text
-          type: string
-        type:
-          const: text
-          title: Type
-          type: string
-      required:
-      - type
-      - text
-      title: TextContent
-      type: object
-    FunctionObject:
-      additionalProperties: false
-      description: A function object.
-      properties:
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          title: Description
-        name:
-          title: Name
-          type: string
-        parameters:
-          anyOf:
-          - $ref: '#/components/schemas/Parameters'
-          - type: 'null'
-          default: null
-        strict:
-          default: false
-          title: Strict
-          type: boolean
-      required:
-      - name
-      title: FunctionObject
-      type: object
-    CreateChatCompletionResponse:
-      anyOf:
-      - $ref: '#/components/schemas/ChatCompletionResponse'
-      - $ref: '#/components/schemas/ChatChunkResponse'
-      - $ref: '#/components/schemas/ErrorChunkResponse'
-      title: CreateChatCompletionResponse
-    DeveloperMessageRequest:
-      additionalProperties: false
-      description: 'A message request from the developer:
-
-        Currently only for openai models, where they are functionally the same as system'
-      properties:
-        content:
-          anyOf:
-          - type: string
-          - items:
-              discriminator:
-                mapping:
-                  image: '#/components/schemas/ImageContent'
-                  image_url: '#/components/schemas/ImageUrlContent'
-                  text: '#/components/schemas/TextContent'
-                propertyName: type
-              oneOf:
-              - $ref: '#/components/schemas/TextContent'
-              - $ref: '#/components/schemas/ImageUrlContent'
-              - $ref: '#/components/schemas/ImageContent'
-            type: array
-          title: Content
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          title: Name
-        role:
-          const: developer
-          default: developer
-          title: Role
-          type: string
-      required:
-      - content
-      title: DeveloperMessageRequest
-      type: object
     UserMessageRequest:
       additionalProperties: false
       description: A message request from the user.
@@ -661,386 +365,6 @@ components:
       required:
       - content
       title: UserMessageRequest
-      type: object
-    ChatChunkResponse:
-      additionalProperties: false
-      examples:
-      - choices:
-        - delta:
-            role: assistant
-          index: 0
-        created: 1721088719
-        id: response_1721
-        model: llama3.1-8b
-        object: chat.completion.chunk
-        system_fingerprint: '88719'
-      - choices:
-        - delta:
-            content: 'Generative '
-          index: 0
-        created: 1721088719
-        id: response_1721
-        model: llama3.1-8b
-        object: chat.completion.chunk
-        system_fingerprint: '88719'
-      - choices:
-        - delta: {}
-          finish_reason: stop
-          index: 0
-        created: 1721088719
-        id: response_1721
-        model: llama3.1-8b
-        object: chat.completion.chunk
-        system_fingerprint: '88719'
-        time_info:
-          completion_time: 0.44
-          prompt_time: 0.02
-          queue_time: 0.0
-          total_time: 0.46
-        usage:
-          completion_tokens: 1020
-          prompt_tokens: 40
-          prompt_tokens_details:
-            cached_tokens: 1020
-          total_tokens: 1060
-      properties:
-        choices:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ChatChunkChoice'
-            type: array
-          - type: 'null'
-          title: Choices
-        created:
-          title: Created
-          type: integer
-        id:
-          title: Id
-          type: string
-        model:
-          title: Model
-          type: string
-        object:
-          const: chat.completion.chunk
-          title: Object
-          type: string
-        service_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Service Tier
-        system_fingerprint:
-          title: System Fingerprint
-          type: string
-        time_info:
-          anyOf:
-          - $ref: '#/components/schemas/TimeInfo'
-          - type: 'null'
-        usage:
-          anyOf:
-          - $ref: '#/components/schemas/Usage'
-          - type: 'null'
-      required:
-      - id
-      - created
-      - model
-      - system_fingerprint
-      - object
-      title: ChatChunkResponse
-      type: object
-    TopLogProbs:
-      additionalProperties: false
-      properties:
-        bytes:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Bytes
-        logprob:
-          title: Logprob
-          type: number
-        token:
-          title: Token
-          type: string
-      required:
-      - token
-      - logprob
-      title: TopLogProbs
-      type: object
-    ImageContent:
-      additionalProperties: false
-      description: Image URL content for a message.
-      properties:
-        image:
-          title: Image
-          type: string
-        type:
-          const: image
-          title: Type
-          type: string
-      required:
-      - type
-      - image
-      title: ImageContent
-      type: object
-    AssistantMessageRequest:
-      additionalProperties: false
-      description: A message request from an assistant.
-      properties:
-        content:
-          anyOf:
-          - type: string
-          - items:
-              $ref: '#/components/schemas/TextContent'
-            type: array
-          - type: 'null'
-          default: null
-          title: Content
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          title: Name
-        reasoning:
-          anyOf:
-          - type: string
-          - items:
-              $ref: '#/components/schemas/TextContent'
-            type: array
-          - type: 'null'
-          default: null
-          title: Reasoning
-        role:
-          const: assistant
-          default: assistant
-          title: Role
-          type: string
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/AssistantToolCall'
-            type: array
-          - type: 'null'
-          default: null
-          title: Tool Calls
-      title: AssistantMessageRequest
-      type: object
-    ServiceTier:
-      enum:
-      - auto
-      - default
-      - flex
-      - priority
-      title: ServiceTier
-      type: string
-    ImageUrlContent:
-      additionalProperties: false
-      description: Image URL content for a message.
-      properties:
-        image_url:
-          $ref: '#/components/schemas/ImageUrl'
-        type:
-          const: image_url
-          title: Type
-          type: string
-      required:
-      - type
-      - image_url
-      title: ImageUrlContent
-      type: object
-    Tool:
-      additionalProperties: false
-      description: A tool object
-      properties:
-        function:
-          $ref: '#/components/schemas/FunctionObject'
-        type:
-          title: Type
-          type: string
-      required:
-      - type
-      - function
-      title: Tool
-      type: object
-    ToolChoice:
-      description: A tool choice object.
-      enum:
-      - none
-      - auto
-      - required
-      title: ToolChoice
-      type: string
-    AssistantToolCallFunction:
-      additionalProperties: false
-      description: A function call for an assistant tool.
-      properties:
-        arguments:
-          title: Arguments
-          type: string
-        name:
-          title: Name
-          type: string
-      required:
-      - name
-      - arguments
-      title: AssistantToolCallFunction
-      type: object
-    ToolMessageRequest:
-      additionalProperties: false
-      description: A message request from a tool.
-      properties:
-        content:
-          anyOf:
-          - type: string
-          - items:
-              $ref: '#/components/schemas/TextContent'
-            type: array
-          title: Content
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          title: Name
-        role:
-          const: tool
-          default: tool
-          title: Role
-          type: string
-        tool_call_id:
-          title: Tool Call Id
-          type: string
-      required:
-      - content
-      - tool_call_id
-      title: ToolMessageRequest
-      type: object
-    LogProbsContent:
-      additionalProperties: false
-      properties:
-        bytes:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Bytes
-        logprob:
-          title: Logprob
-          type: number
-        token:
-          title: Token
-          type: string
-        top_logprobs:
-          items:
-            $ref: '#/components/schemas/TopLogProbs'
-          title: Top Logprobs
-          type: array
-      required:
-      - token
-      - logprob
-      - top_logprobs
-      title: LogProbsContent
-      type: object
-    ErrorChunkResponse:
-      additionalProperties: false
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorChunkContent'
-        status_code:
-          title: Status Code
-          type: integer
-      required:
-      - status_code
-      - error
-      title: ErrorChunkResponse
-      type: object
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          title: Location
-          type: array
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-      type: object
-    ChunkResponseMessage:
-      additionalProperties: false
-      properties:
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reasoning
-        role:
-          anyOf:
-          - enum:
-            - assistant
-            - user
-            - system
-            - tool
-            type: string
-          - type: 'null'
-          title: Role
-        tokens:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          deprecated: true
-          title: Tokens
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ChunkAssistantToolCall'
-            type: array
-          - type: 'null'
-          title: Tool Calls
-      title: ChunkResponseMessage
-      type: object
-    CompletionTokensDetails:
-      additionalProperties: false
-      examples:
-      - accepted_prediction_tokens: 900
-        rejected_prediction_tokens: 100
-      properties:
-        accepted_prediction_tokens:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Accepted Prediction Tokens
-        reasoning_tokens:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Reasoning Tokens
-        rejected_prediction_tokens:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Rejected Prediction Tokens
-      title: CompletionTokensDetails
       type: object
     ChatCompletionRequest:
       additionalProperties: false
@@ -1314,6 +638,741 @@ components:
       - messages
       title: ChatCompletionRequest
       type: object
+    ImageUrl:
+      additionalProperties: false
+      description: Image URL
+      properties:
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: auto
+          title: Detail
+        url:
+          title: Url
+          type: string
+      required:
+      - url
+      title: ImageUrl
+      type: object
+    ErrorChunkResponse:
+      additionalProperties: false
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorChunkContent'
+        status_code:
+          title: Status Code
+          type: integer
+      required:
+      - status_code
+      - error
+      title: ErrorChunkResponse
+      type: object
+    DeveloperMessageRequest:
+      additionalProperties: false
+      description: 'A message request from the developer:
+
+        Currently only for openai models, where they are functionally the same as system'
+      properties:
+        content:
+          anyOf:
+          - type: string
+          - items:
+              discriminator:
+                mapping:
+                  image: '#/components/schemas/ImageContent'
+                  image_url: '#/components/schemas/ImageUrlContent'
+                  text: '#/components/schemas/TextContent'
+                propertyName: type
+              oneOf:
+              - $ref: '#/components/schemas/TextContent'
+              - $ref: '#/components/schemas/ImageUrlContent'
+              - $ref: '#/components/schemas/ImageContent'
+            type: array
+          title: Content
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Name
+        role:
+          const: developer
+          default: developer
+          title: Role
+          type: string
+      required:
+      - content
+      title: DeveloperMessageRequest
+      type: object
+    ChunkAssistantToolCallFunction:
+      additionalProperties: false
+      description: Streaming only. Represents a function in an assistant tool call.
+      properties:
+        arguments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Arguments
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      title: ChunkAssistantToolCallFunction
+      type: object
+    ImageUrlContent:
+      additionalProperties: false
+      description: Image URL content for a message.
+      properties:
+        image_url:
+          $ref: '#/components/schemas/ImageUrl'
+        type:
+          const: image_url
+          title: Type
+          type: string
+      required:
+      - type
+      - image_url
+      title: ImageUrlContent
+      type: object
+    AssistantToolCallFunction:
+      additionalProperties: false
+      description: A function call for an assistant tool.
+      properties:
+        arguments:
+          title: Arguments
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+      - arguments
+      title: AssistantToolCallFunction
+      type: object
+    PromptTokensDetails:
+      additionalProperties: false
+      examples:
+      - cached_tokens: 1020
+      properties:
+        cached_tokens:
+          default: 0
+          title: Cached Tokens
+          type: integer
+      title: PromptTokensDetails
+      type: object
+    TimeInfo:
+      additionalProperties: false
+      description: 'Time information for different phases of request processing.
+
+
+        All times are measured in seconds.'
+      examples:
+      - completion_time: 0.44
+        prompt_time: 0.02
+        queue_time: 0.0
+        total_time: 0.46
+      properties:
+        completion_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Completion Time
+        created:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Created
+        prompt_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Prompt Time
+        queue_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Queue Time
+        total_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Total Time
+      title: TimeInfo
+      type: object
+    ToolChoice:
+      description: A tool choice object.
+      enum:
+      - none
+      - auto
+      - required
+      title: ToolChoice
+      type: string
+    ChatCompletionChoice:
+      additionalProperties: false
+      properties:
+        finish_reason:
+          anyOf:
+          - enum:
+            - stop
+            - length
+            - content_filter
+            - tool_calls
+            type: string
+          - type: 'null'
+          title: Finish Reason
+        index:
+          title: Index
+          type: integer
+        logprobs:
+          anyOf:
+          - $ref: '#/components/schemas/ChatCompletionLogProbs'
+          - type: 'null'
+        message:
+          $ref: '#/components/schemas/ChatCompletionResponseMessage'
+        reasoning_logprobs:
+          anyOf:
+          - $ref: '#/components/schemas/ChatCompletionLogProbs'
+          - type: 'null'
+      required:
+      - index
+      - message
+      title: ChatCompletionChoice
+      type: object
+    ToolMessageRequest:
+      additionalProperties: false
+      description: A message request from a tool.
+      properties:
+        content:
+          anyOf:
+          - type: string
+          - items:
+              $ref: '#/components/schemas/TextContent'
+            type: array
+          title: Content
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Name
+        role:
+          const: tool
+          default: tool
+          title: Role
+          type: string
+        tool_call_id:
+          title: Tool Call Id
+          type: string
+      required:
+      - content
+      - tool_call_id
+      title: ToolMessageRequest
+      type: object
+    CompletionTokensDetails:
+      additionalProperties: false
+      examples:
+      - accepted_prediction_tokens: 900
+        rejected_prediction_tokens: 100
+      properties:
+        accepted_prediction_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Accepted Prediction Tokens
+        reasoning_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reasoning Tokens
+        rejected_prediction_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rejected Prediction Tokens
+      title: CompletionTokensDetails
+      type: object
+    ChatChunkResponse:
+      additionalProperties: false
+      examples:
+      - choices:
+        - delta:
+            role: assistant
+          index: 0
+        created: 1721088719
+        id: response_1721
+        model: llama3.1-8b
+        object: chat.completion.chunk
+        system_fingerprint: '88719'
+      - choices:
+        - delta:
+            content: 'Generative '
+          index: 0
+        created: 1721088719
+        id: response_1721
+        model: llama3.1-8b
+        object: chat.completion.chunk
+        system_fingerprint: '88719'
+      - choices:
+        - delta: {}
+          finish_reason: stop
+          index: 0
+        created: 1721088719
+        id: response_1721
+        model: llama3.1-8b
+        object: chat.completion.chunk
+        system_fingerprint: '88719'
+        time_info:
+          completion_time: 0.44
+          prompt_time: 0.02
+          queue_time: 0.0
+          total_time: 0.46
+        usage:
+          completion_tokens: 1020
+          prompt_tokens: 40
+          prompt_tokens_details:
+            cached_tokens: 1020
+          total_tokens: 1060
+      properties:
+        choices:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ChatChunkChoice'
+            type: array
+          - type: 'null'
+          title: Choices
+        created:
+          title: Created
+          type: integer
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        object:
+          const: chat.completion.chunk
+          title: Object
+          type: string
+        service_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Tier
+        system_fingerprint:
+          title: System Fingerprint
+          type: string
+        time_info:
+          anyOf:
+          - $ref: '#/components/schemas/TimeInfo'
+          - type: 'null'
+        usage:
+          anyOf:
+          - $ref: '#/components/schemas/Usage'
+          - type: 'null'
+      required:
+      - id
+      - created
+      - model
+      - system_fingerprint
+      - object
+      title: ChatChunkResponse
+      type: object
+    FunctionObject:
+      additionalProperties: false
+      description: A function object.
+      properties:
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Description
+        name:
+          title: Name
+          type: string
+        parameters:
+          anyOf:
+          - $ref: '#/components/schemas/Parameters'
+          - type: 'null'
+          default: null
+        strict:
+          default: false
+          title: Strict
+          type: boolean
+      required:
+      - name
+      title: FunctionObject
+      type: object
+    ChatCompletionLogProbs:
+      additionalProperties: false
+      properties:
+        content:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LogProbsContent'
+            type: array
+          - type: 'null'
+          title: Content
+        refusal:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LogProbsContent'
+            type: array
+          - type: 'null'
+          title: Refusal
+      title: ChatCompletionLogProbs
+      type: object
+    Prediction:
+      additionalProperties: false
+      properties:
+        content:
+          anyOf:
+          - type: string
+          - items:
+              $ref: '#/components/schemas/TextContent'
+            type: array
+          title: Content
+        type:
+          const: content
+          title: Type
+          type: string
+      required:
+      - type
+      - content
+      title: Prediction
+      type: object
+    StreamOptions:
+      additionalProperties: false
+      description: Options for streaming.
+      properties:
+        include_usage:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: null
+          title: Include Usage
+      title: StreamOptions
+      type: object
+    ChunkResponseMessage:
+      additionalProperties: false
+      properties:
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+        role:
+          anyOf:
+          - enum:
+            - assistant
+            - user
+            - system
+            - tool
+            type: string
+          - type: 'null'
+          title: Role
+        tokens:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          deprecated: true
+          title: Tokens
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ChunkAssistantToolCall'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+      title: ChunkResponseMessage
+      type: object
+    ChatCompletionResponse:
+      additionalProperties: false
+      examples:
+      - choices:
+        - finish_reason: stop
+          index: 0
+          message:
+            content: "Generative AI is a subfield of artificial intelligence that focuses on generating new, original content, such as images, music, text, or videos. These models are trained on large datasets and learn to recognize patterns, relationships, and structures within the data, allowing them to generate new content that is similar in style, tone, or characteristics to the training data. \n \n Generative AI models can be categorized into two main types: Generative Adversarial Networks (GANs) and Variational Autoencoders (VAEs). GANs consist of two neural networks: a generator and a discriminator. The generator creates new content, while the discriminator evaluates the generated content and tells the generator whether it's realistic or not. VAEs are neural networks that learn to compress and reconstruct data. \n \n Generative AI has numerous applications across various industries, including art and design, content generation, data augmentation, and recommendation systems. Some examples of Generative AI in action include Deep Dream Generator, Amper Music, and DALL-E. \n \n In summary, Generative AI is a powerful technology that enables the creation of new, original content using machine learning models. It has the potential to revolutionize various industries and create new opportunities for artists, designers, and content creators."
+            role: assistant
+        created: 1721088719
+        id: response_1721
+        model: llama3.1-8b
+        object: chat.completion
+        system_fingerprint: '88719'
+        time_info:
+          completion_time: 0.44
+          prompt_time: 0.02
+          queue_time: 0.0
+          total_time: 0.46
+        usage:
+          completion_tokens: 1020
+          prompt_tokens: 40
+          prompt_tokens_details:
+            cached_tokens: 1020
+          total_tokens: 1060
+      properties:
+        choices:
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+          minItems: 1
+          title: Choices
+          type: array
+        created:
+          title: Created
+          type: integer
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        object:
+          const: chat.completion
+          title: Object
+          type: string
+        service_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Tier
+        system_fingerprint:
+          title: System Fingerprint
+          type: string
+        time_info:
+          anyOf:
+          - $ref: '#/components/schemas/TimeInfo'
+          - type: 'null'
+        usage:
+          anyOf:
+          - $ref: '#/components/schemas/Usage'
+          - type: 'null'
+      required:
+      - id
+      - choices
+      - created
+      - model
+      - system_fingerprint
+      - object
+      title: ChatCompletionResponse
+      type: object
+    LogProbsContent:
+      additionalProperties: false
+      properties:
+        bytes:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Bytes
+        logprob:
+          title: Logprob
+          type: number
+        token:
+          title: Token
+          type: string
+        top_logprobs:
+          items:
+            $ref: '#/components/schemas/TopLogProbs'
+          title: Top Logprobs
+          type: array
+      required:
+      - token
+      - logprob
+      - top_logprobs
+      title: LogProbsContent
+      type: object
+    ImageContent:
+      additionalProperties: false
+      description: Image URL content for a message.
+      properties:
+        image:
+          title: Image
+          type: string
+        type:
+          const: image
+          title: Type
+          type: string
+      required:
+      - type
+      - image
+      title: ImageContent
+      type: object
+    Parameters:
+      additionalProperties: true
+      description: 'Represents the parameters a function accepts.
+
+        This model is designed to be flexible to accommodate any JSON Schema.
+
+        The key-value pairs you provide will define the parameters.'
+      title: Parameters
+      type: object
+    JSONSchema:
+      additionalProperties: false
+      description: A JSON Schema object.
+      properties:
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Description
+        name:
+          title: Name
+          type: string
+        schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          default: null
+          title: Schema
+        strict:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: null
+          title: Strict
+      required:
+      - name
+      title: JSONSchema
+      type: object
+    ChatCompletionResponseMessage:
+      additionalProperties: false
+      properties:
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+        role:
+          enum:
+          - assistant
+          - user
+          - system
+          - tool
+          title: Role
+          type: string
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ChunkAssistantToolCall'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+      required:
+      - role
+      title: ChatCompletionResponseMessage
+      type: object
+    ResponseFormatJSONSchema:
+      additionalProperties: false
+      description: A response format for a JSON schema.
+      properties:
+        json_schema:
+          $ref: '#/components/schemas/JSONSchema'
+        type:
+          const: json_schema
+          title: Type
+          type: string
+      required:
+      - json_schema
+      - type
+      title: ResponseFormatJSONSchema
+      type: object
+    TextContent:
+      additionalProperties: false
+      description: Text content for a message.
+      properties:
+        text:
+          title: Text
+          type: string
+        type:
+          const: text
+          title: Type
+          type: string
+      required:
+      - type
+      - text
+      title: TextContent
+      type: object
+    CreateChatCompletionResponse:
+      anyOf:
+      - $ref: '#/components/schemas/ChatCompletionResponse'
+      - $ref: '#/components/schemas/ChatChunkResponse'
+      - $ref: '#/components/schemas/ErrorChunkResponse'
+      title: CreateChatCompletionResponse
+    AssistantMessageRequest:
+      additionalProperties: false
+      description: A message request from an assistant.
+      properties:
+        content:
+          anyOf:
+          - type: string
+          - items:
+              $ref: '#/components/schemas/TextContent'
+            type: array
+          - type: 'null'
+          default: null
+          title: Content
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Name
+        reasoning:
+          anyOf:
+          - type: string
+          - items:
+              $ref: '#/components/schemas/TextContent'
+            type: array
+          - type: 'null'
+          default: null
+          title: Reasoning
+        role:
+          const: assistant
+          default: assistant
+          title: Role
+          type: string
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/AssistantToolCall'
+            type: array
+          - type: 'null'
+          default: null
+          title: Tool Calls
+      title: AssistantMessageRequest
+      type: object
+    ReasoningFormat:
+      enum:
+      - none
+      - parsed
+      - text_parsed
+      - raw
+      - hidden
+      title: ReasoningFormat
+      type: string
     ErrorChunkContent:
       additionalProperties: false
       properties:
@@ -1349,100 +1408,41 @@ components:
           title: Type
       title: ErrorChunkContent
       type: object
-    StreamOptions:
+    Usage:
       additionalProperties: false
-      description: Options for streaming.
+      examples:
+      - completion_tokens: 1020
+        prompt_tokens: 40
+        prompt_tokens_details:
+          cached_tokens: 1020
+        total_tokens: 1060
       properties:
-        include_usage:
+        completion_tokens:
+          default: 0
+          title: Completion Tokens
+          type: integer
+        completion_tokens_details:
           anyOf:
-          - type: boolean
+          - $ref: '#/components/schemas/CompletionTokensDetails'
           - type: 'null'
-          default: null
-          title: Include Usage
-      title: StreamOptions
-      type: object
-    ReasoningEffort:
-      enum:
-      - none
-      - low
-      - medium
-      - high
-      title: ReasoningEffort
-      type: string
-    ImageUrl:
-      additionalProperties: false
-      description: Image URL
-      properties:
-        detail:
+        image_tokens:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          default: auto
-          title: Detail
-        url:
-          title: Url
-          type: string
-      required:
-      - url
-      title: ImageUrl
-      type: object
-    ChunkAssistantToolCallFunction:
-      additionalProperties: false
-      description: Streaming only. Represents a function in an assistant tool call.
-      properties:
-        arguments:
+          title: Image Tokens
+        prompt_tokens:
+          default: 0
+          title: Prompt Tokens
+          type: integer
+        prompt_tokens_details:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/PromptTokensDetails'
           - type: 'null'
-          title: Arguments
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-      title: ChunkAssistantToolCallFunction
-      type: object
-    JSONSchema:
-      additionalProperties: false
-      description: A JSON Schema object.
-      properties:
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          title: Description
-        name:
-          title: Name
-          type: string
-        schema:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          default: null
-          title: Schema
-        strict:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          default: null
-          title: Strict
-      required:
-      - name
-      title: JSONSchema
-      type: object
-    ResponseFormatText:
-      additionalProperties: false
-      description: A response format for text.
-      properties:
-        type:
-          const: text
-          title: Type
-          type: string
-      required:
-      - type
-      title: ResponseFormatText
+        total_tokens:
+          default: 0
+          title: Total Tokens
+          type: integer
+      title: Usage
       type: object
   securitySchemes:
     HTTPBearer:
