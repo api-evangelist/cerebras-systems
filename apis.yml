@@ -77,28 +77,6 @@ tags_raw:
 - Semiconductors
 - Machine-Learning
 apis:
-- aid: cerebras-systems:cerebras-systems-chat-api
-  name: Cerebras Systems Chat API
-  description: The Chat API from Cerebras Systems — 1 operation(s) for chat.
-  humanURL: https://inference-docs.cerebras.ai
-  baseURL: https://api.cerebras.ai
-  tags:
-  - Chat
-  properties:
-  - type: OpenAPI
-    url: openapi/cerebras-systems-chat-api-openapi.yml
-  - type: APIReference
-    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
-  - type: Documentation
-    url: https://inference-docs.cerebras.ai
-  - type: ErrorCatalog
-    url: errors/cerebras-systems-problem-types.yml
-  - type: Authentication
-    url: authentication/cerebras-systems-authentication.yml
-  - type: Conventions
-    url: conventions/cerebras-systems-conventions.yml
-  - type: DataModel
-    url: data-model/cerebras-systems-data-model.yml
 - aid: cerebras-systems:cerebras-systems-completions-api
   name: Cerebras Systems Completions API
   description: The Completions API from Cerebras Systems — 1 operation(s) for completions.
@@ -175,6 +153,28 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cerebras-systems-tcp-warming-api-openapi.yml
+  - type: APIReference
+    url: https://inference-docs.cerebras.ai/api-reference/chat-completions
+  - type: Documentation
+    url: https://inference-docs.cerebras.ai
+  - type: ErrorCatalog
+    url: errors/cerebras-systems-problem-types.yml
+  - type: Authentication
+    url: authentication/cerebras-systems-authentication.yml
+  - type: Conventions
+    url: conventions/cerebras-systems-conventions.yml
+  - type: DataModel
+    url: data-model/cerebras-systems-data-model.yml
+- aid: cerebras-systems:cerebras-systems-chat-completions-api
+  name: Cerebras Systems Chat Completions API
+  description: The Chat Completions API from Cerebras Systems — 1 operation(s) for chat completions.
+  humanURL: https://inference-docs.cerebras.ai
+  baseURL: https://api.cerebras.ai
+  tags:
+  - Chat Completions
+  properties:
+  - type: OpenAPI
+    url: openapi/cerebras-systems-chat-completions-api-openapi.yml
   - type: APIReference
     url: https://inference-docs.cerebras.ai/api-reference/chat-completions
   - type: Documentation

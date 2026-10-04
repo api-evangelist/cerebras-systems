@@ -134,49 +134,148 @@ components:
       - type
       title: ValidationError
       type: object
-    HuggingFaceModel:
-      description: 'Model in HuggingFace-compatible format for inference providers.
-
-
-        This format is used by HuggingFace to power their provider comparison table
-
-        and provider selection features.'
+    ModelArchitecture:
+      description: Architecture details of the model.
       properties:
-        capabilities:
-          $ref: '#/components/schemas/HuggingFaceCapabilities'
-        context_length:
-          description: Supported context length in tokens
-          title: Context Length
-          type: integer
-        created:
-          title: Created
-          type: integer
-        hugging_face_id:
+        instruct_type:
           anyOf:
           - type: string
           - type: 'null'
-          description: The corresponding HuggingFace Hub model ID
+          description: The instruction format type used for fine-tuning (e.g., 'llama3', 'chatml').
+          title: Instruct Type
+        modality:
+          description: The modality of the model (e.g., 'text', 'text+vision', 'multimodal').
+          enum:
+          - text
+          - text+vision
+          - multimodal
+          title: Modality
+          type: string
+        tokenizer:
+          description: The tokenizer used by the model (e.g., 'Llama3', 'GPT4').
+          title: Tokenizer
+          type: string
+      required:
+      - modality
+      - tokenizer
+      title: ModelArchitecture
+      type: object
+    OpenRouterModel:
+      description: Model in OpenRouter-compatible format.
+      properties:
+        context_length:
+          title: Context Length
+          type: integer
+        created:
+          description: Unix timestamp when model was created
+          title: Created
+          type: integer
+        datacenters:
+          description: Datacenter locations
+          items:
+            $ref: '#/components/schemas/DatacenterLocation'
+          title: Datacenters
+          type: array
+        description:
+          default: ''
+          description: Model description
+          title: Description
+          type: string
+        hugging_face_id:
+          default: ''
+          description: The corresponding HuggingFace Hub model ID, if available
           title: Hugging Face Id
+          type: string
         id:
+          description: Model ID with provider prefix, e.g., 'cerebras/llama3.1-8b'
           title: Id
           type: string
-        object:
-          const: model
-          default: model
-          title: Object
+        input_modalities:
+          description: Supported input modalities (text, image, file)
+          items:
+            type: string
+          title: Input Modalities
+          type: array
+        max_output_length:
+          description: Maximum number of output tokens
+          title: Max Output Length
+          type: integer
+        name:
+          title: Name
           type: string
-        owned_by:
-          title: Owned By
-          type: string
+        openrouter:
+          anyOf:
+          - $ref: '#/components/schemas/OpenRouterInfo'
+          - type: 'null'
+          description: OpenRouter metadata
+        output_modalities:
+          description: Supported output modalities (text, image, file)
+          items:
+            type: string
+          title: Output Modalities
+          type: array
         pricing:
-          $ref: '#/components/schemas/HuggingFacePricing'
+          $ref: '#/components/schemas/OpenRouterPricing'
+        quantization:
+          default: fp16
+          description: Model quantization (fp16 only for Cerebras)
+          title: Quantization
+          type: string
+        supported_features:
+          description: List of supported features
+          items:
+            type: string
+          title: Supported Features
+          type: array
+        supported_sampling_parameters:
+          description: List of supported sampling parameters
+          items:
+            type: string
+          title: Supported Sampling Parameters
+          type: array
       required:
       - id
+      - name
       - created
-      - owned_by
       - context_length
+      - max_output_length
       - pricing
-      title: HuggingFaceModel
+      title: OpenRouterModel
+      type: object
+    HuggingFacePricing:
+      description: HuggingFace pricing format - price in USD per million tokens.
+      properties:
+        input:
+          description: Price in USD per million input tokens
+          title: Input
+          type: number
+        output:
+          description: Price in USD per million output tokens
+          title: Output
+          type: number
+      required:
+      - input
+      - output
+      title: HuggingFacePricing
+      type: object
+    PublicModelsListResponse:
+      description: OpenAI-compatible list of models.
+      properties:
+        data:
+          description: Array of model objects
+          items:
+            $ref: '#/components/schemas/PublicModel'
+          title: Data
+          type: array
+        object:
+          const: list
+          default: list
+          description: Object type (always 'list')
+          title: Object
+          type: string
+      required:
+      - data
+      title: PublicModelsListResponse
       type: object
     ModelFormat:
       description: Output format for public models endpoint.
@@ -217,23 +316,6 @@ components:
       - max_context_length
       - max_completion_tokens
       title: ModelLimits
-      type: object
-    HuggingFaceModelsResponse:
-      description: HuggingFace-compatible list of models.
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/HuggingFaceModel'
-          title: Data
-          type: array
-        object:
-          const: list
-          default: list
-          title: Object
-          type: string
-      required:
-      - data
-      title: HuggingFaceModelsResponse
       type: object
     HTTPValidationError:
       properties:
@@ -299,57 +381,76 @@ components:
           type: boolean
       title: ModelCapabilities
       type: object
-    HuggingFaceCapabilities:
-      description: HuggingFace capabilities format.
+    OpenRouterInfo:
+      description: OpenRouter metadata.
       properties:
-        function_calling:
-          default: false
-          title: Function Calling
-          type: boolean
-        streaming:
-          default: true
-          title: Streaming
-          type: boolean
-        structured_outputs:
-          default: false
-          title: Structured Outputs
-          type: boolean
-        vision:
-          default: false
-          title: Vision
-          type: boolean
-      title: HuggingFaceCapabilities
-      type: object
-    OpenRouterModelsResponse:
-      description: OpenRouter-compatible list of models.
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/OpenRouterModel'
-          title: Data
-          type: array
-      required:
-      - data
-      title: OpenRouterModelsResponse
-      type: object
-    PublicModelsListResponse:
-      description: OpenAI-compatible list of models.
-      properties:
-        data:
-          description: Array of model objects
-          items:
-            $ref: '#/components/schemas/PublicModel'
-          title: Data
-          type: array
-        object:
-          const: list
-          default: list
-          description: Object type (always 'list')
-          title: Object
+        slug:
+          description: OpenRouter slug for the model
+          title: Slug
           type: string
       required:
-      - data
-      title: PublicModelsListResponse
+      - slug
+      title: OpenRouterInfo
+      type: object
+    SupportedParameters:
+      description: Sampling parameters supported by the model.
+      properties:
+        frequency_penalty:
+          default: false
+          description: Supports frequency_penalty parameter.
+          title: Frequency Penalty
+          type: boolean
+        logit_bias:
+          default: false
+          description: Supports logit_bias parameter.
+          title: Logit Bias
+          type: boolean
+        logprobs:
+          default: false
+          description: Supports logprobs output.
+          title: Logprobs
+          type: boolean
+        max_completion_tokens:
+          default: true
+          description: Supports max_completion_tokens parameter.
+          title: Max Completion Tokens
+          type: boolean
+        presence_penalty:
+          default: false
+          description: Supports presence_penalty parameter.
+          title: Presence Penalty
+          type: boolean
+        repetition_penalty:
+          default: false
+          description: Supports repetition_penalty parameter.
+          title: Repetition Penalty
+          type: boolean
+        seed:
+          default: true
+          description: Supports seed for reproducible outputs.
+          title: Seed
+          type: boolean
+        stop:
+          default: true
+          description: Supports stop sequences parameter.
+          title: Stop
+          type: boolean
+        temperature:
+          default: true
+          description: Supports temperature sampling parameter.
+          title: Temperature
+          type: boolean
+        top_logprobs:
+          default: false
+          description: Supports top_logprobs parameter.
+          title: Top Logprobs
+          type: boolean
+        top_p:
+          default: true
+          description: Supports top_p (nucleus) sampling parameter.
+          title: Top P
+          type: boolean
+      title: SupportedParameters
       type: object
     OpenRouterPricing:
       description: OpenRouter pricing format.
@@ -387,6 +488,18 @@ components:
       - completion
       title: OpenRouterPricing
       type: object
+    OpenRouterModelsResponse:
+      description: OpenRouter-compatible list of models.
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/OpenRouterModel'
+          title: Data
+          type: array
+      required:
+      - data
+      title: OpenRouterModelsResponse
+      type: object
     DatacenterLocation:
       description: Datacenter location information.
       properties:
@@ -398,31 +511,108 @@ components:
       - country_code
       title: DatacenterLocation
       type: object
-    ModelArchitecture:
-      description: Architecture details of the model.
+    HuggingFaceModel:
+      description: 'Model in HuggingFace-compatible format for inference providers.
+
+
+        This format is used by HuggingFace to power their provider comparison table
+
+        and provider selection features.'
       properties:
-        instruct_type:
+        capabilities:
+          $ref: '#/components/schemas/HuggingFaceCapabilities'
+        context_length:
+          description: Supported context length in tokens
+          title: Context Length
+          type: integer
+        created:
+          title: Created
+          type: integer
+        hugging_face_id:
           anyOf:
           - type: string
           - type: 'null'
-          description: The instruction format type used for fine-tuning (e.g., 'llama3', 'chatml').
-          title: Instruct Type
-        modality:
-          description: The modality of the model (e.g., 'text', 'text+vision', 'multimodal').
-          enum:
-          - text
-          - text+vision
-          - multimodal
-          title: Modality
+          description: The corresponding HuggingFace Hub model ID
+          title: Hugging Face Id
+        id:
+          title: Id
           type: string
-        tokenizer:
-          description: The tokenizer used by the model (e.g., 'Llama3', 'GPT4').
-          title: Tokenizer
+        object:
+          const: model
+          default: model
+          title: Object
+          type: string
+        owned_by:
+          title: Owned By
+          type: string
+        pricing:
+          $ref: '#/components/schemas/HuggingFacePricing'
+      required:
+      - id
+      - created
+      - owned_by
+      - context_length
+      - pricing
+      title: HuggingFaceModel
+      type: object
+    HuggingFaceCapabilities:
+      description: HuggingFace capabilities format.
+      properties:
+        function_calling:
+          default: false
+          title: Function Calling
+          type: boolean
+        streaming:
+          default: true
+          title: Streaming
+          type: boolean
+        structured_outputs:
+          default: false
+          title: Structured Outputs
+          type: boolean
+        vision:
+          default: false
+          title: Vision
+          type: boolean
+      title: HuggingFaceCapabilities
+      type: object
+    ModelPricing:
+      description: Pricing information for a model.
+      example:
+        completion: '0.0000001'
+        prompt: '0.0000001'
+      properties:
+        completion:
+          description: Cost per token for completion (output) tokens in USD.
+          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          title: Completion
+          type: string
+        prompt:
+          description: Cost per token for prompt (input) tokens in USD.
+          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          title: Prompt
           type: string
       required:
-      - modality
-      - tokenizer
-      title: ModelArchitecture
+      - prompt
+      - completion
+      title: ModelPricing
+      type: object
+    HuggingFaceModelsResponse:
+      description: HuggingFace-compatible list of models.
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/HuggingFaceModel'
+          title: Data
+          type: array
+        object:
+          const: list
+          default: list
+          title: Object
+          type: string
+      required:
+      - data
+      title: HuggingFaceModelsResponse
       type: object
     PublicModel:
       description: 'Complete model specification following OpenAI-compatible schema
@@ -516,196 +706,6 @@ components:
       - architecture
       - limits
       title: PublicModel
-      type: object
-    OpenRouterInfo:
-      description: OpenRouter metadata.
-      properties:
-        slug:
-          description: OpenRouter slug for the model
-          title: Slug
-          type: string
-      required:
-      - slug
-      title: OpenRouterInfo
-      type: object
-    ModelPricing:
-      description: Pricing information for a model.
-      example:
-        completion: '0.0000001'
-        prompt: '0.0000001'
-      properties:
-        completion:
-          description: Cost per token for completion (output) tokens in USD.
-          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          title: Completion
-          type: string
-        prompt:
-          description: Cost per token for prompt (input) tokens in USD.
-          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          title: Prompt
-          type: string
-      required:
-      - prompt
-      - completion
-      title: ModelPricing
-      type: object
-    OpenRouterModel:
-      description: Model in OpenRouter-compatible format.
-      properties:
-        context_length:
-          title: Context Length
-          type: integer
-        created:
-          description: Unix timestamp when model was created
-          title: Created
-          type: integer
-        datacenters:
-          description: Datacenter locations
-          items:
-            $ref: '#/components/schemas/DatacenterLocation'
-          title: Datacenters
-          type: array
-        description:
-          default: ''
-          description: Model description
-          title: Description
-          type: string
-        hugging_face_id:
-          default: ''
-          description: The corresponding HuggingFace Hub model ID, if available
-          title: Hugging Face Id
-          type: string
-        id:
-          description: Model ID with provider prefix, e.g., 'cerebras/llama3.1-8b'
-          title: Id
-          type: string
-        input_modalities:
-          description: Supported input modalities (text, image, file)
-          items:
-            type: string
-          title: Input Modalities
-          type: array
-        max_output_length:
-          description: Maximum number of output tokens
-          title: Max Output Length
-          type: integer
-        name:
-          title: Name
-          type: string
-        openrouter:
-          anyOf:
-          - $ref: '#/components/schemas/OpenRouterInfo'
-          - type: 'null'
-          description: OpenRouter metadata
-        output_modalities:
-          description: Supported output modalities (text, image, file)
-          items:
-            type: string
-          title: Output Modalities
-          type: array
-        pricing:
-          $ref: '#/components/schemas/OpenRouterPricing'
-        quantization:
-          default: fp16
-          description: Model quantization (fp16 only for Cerebras)
-          title: Quantization
-          type: string
-        supported_features:
-          description: List of supported features
-          items:
-            type: string
-          title: Supported Features
-          type: array
-        supported_sampling_parameters:
-          description: List of supported sampling parameters
-          items:
-            type: string
-          title: Supported Sampling Parameters
-          type: array
-      required:
-      - id
-      - name
-      - created
-      - context_length
-      - max_output_length
-      - pricing
-      title: OpenRouterModel
-      type: object
-    SupportedParameters:
-      description: Sampling parameters supported by the model.
-      properties:
-        frequency_penalty:
-          default: false
-          description: Supports frequency_penalty parameter.
-          title: Frequency Penalty
-          type: boolean
-        logit_bias:
-          default: false
-          description: Supports logit_bias parameter.
-          title: Logit Bias
-          type: boolean
-        logprobs:
-          default: false
-          description: Supports logprobs output.
-          title: Logprobs
-          type: boolean
-        max_completion_tokens:
-          default: true
-          description: Supports max_completion_tokens parameter.
-          title: Max Completion Tokens
-          type: boolean
-        presence_penalty:
-          default: false
-          description: Supports presence_penalty parameter.
-          title: Presence Penalty
-          type: boolean
-        repetition_penalty:
-          default: false
-          description: Supports repetition_penalty parameter.
-          title: Repetition Penalty
-          type: boolean
-        seed:
-          default: true
-          description: Supports seed for reproducible outputs.
-          title: Seed
-          type: boolean
-        stop:
-          default: true
-          description: Supports stop sequences parameter.
-          title: Stop
-          type: boolean
-        temperature:
-          default: true
-          description: Supports temperature sampling parameter.
-          title: Temperature
-          type: boolean
-        top_logprobs:
-          default: false
-          description: Supports top_logprobs parameter.
-          title: Top Logprobs
-          type: boolean
-        top_p:
-          default: true
-          description: Supports top_p (nucleus) sampling parameter.
-          title: Top P
-          type: boolean
-      title: SupportedParameters
-      type: object
-    HuggingFacePricing:
-      description: HuggingFace pricing format - price in USD per million tokens.
-      properties:
-        input:
-          description: Price in USD per million input tokens
-          title: Input
-          type: number
-        output:
-          description: Price in USD per million output tokens
-          title: Output
-          type: number
-      required:
-      - input
-      - output
-      title: HuggingFacePricing
       type: object
   securitySchemes:
     HTTPBearer:

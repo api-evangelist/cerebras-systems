@@ -70,70 +70,6 @@ paths:
       - Completions
 components:
   schemas:
-    TimeInfo:
-      additionalProperties: false
-      description: 'Time information for different phases of request processing.
-
-
-        All times are measured in seconds.'
-      examples:
-      - completion_time: 0.44
-        prompt_time: 0.02
-        queue_time: 0.0
-        total_time: 0.46
-      properties:
-        completion_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Completion Time
-        created:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Created
-        prompt_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Prompt Time
-        queue_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Queue Time
-        total_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Total Time
-      title: TimeInfo
-      type: object
-    PromptTokensDetails:
-      additionalProperties: false
-      examples:
-      - cached_tokens: 1020
-      properties:
-        cached_tokens:
-          default: 0
-          title: Cached Tokens
-          type: integer
-      title: PromptTokensDetails
-      type: object
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
-      type: object
     ValidationError:
       properties:
         loc:
@@ -155,11 +91,31 @@ components:
       - type
       title: ValidationError
       type: object
-    CreateCompletionResponse:
-      anyOf:
-      - $ref: '#/components/schemas/CompletionResponse'
-      - $ref: '#/components/schemas/ErrorChunkResponse'
-      title: CreateCompletionResponse
+    StreamOptions:
+      additionalProperties: false
+      description: Options for streaming.
+      properties:
+        include_usage:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: null
+          title: Include Usage
+      title: StreamOptions
+      type: object
+    ErrorChunkResponse:
+      additionalProperties: false
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorChunkContent'
+        status_code:
+          title: Status Code
+          type: integer
+      required:
+      - status_code
+      - error
+      title: ErrorChunkResponse
+      type: object
     CompletionRequest:
       additionalProperties: false
       description: Request for completions endpoint
@@ -360,53 +316,76 @@ components:
       - prompt
       title: CompletionRequest
       type: object
-    CompletionLogProbs:
+    ErrorChunkContent:
       additionalProperties: false
       properties:
-        text_offset:
+        code:
           anyOf:
-          - items:
-              type: integer
-            type: array
+          - type: string
           - type: 'null'
-          title: Text Offset
-        token_logprobs:
+          default: ''
+          title: Code
+        id:
           anyOf:
-          - items:
-              type: number
-            type: array
+          - type: string
           - type: 'null'
-          title: Token Logprobs
-        tokens:
+          default: ''
+          title: Id
+        message:
           anyOf:
-          - items:
-              type: string
-            type: array
+          - type: string
           - type: 'null'
-          title: Tokens
-        top_logprobs:
+          default: ''
+          title: Message
+        param:
           anyOf:
-          - items:
-              additionalProperties:
-                type: number
-              type: object
-            type: array
+          - type: string
           - type: 'null'
-          title: Top Logprobs
-      title: CompletionLogProbs
+          default: ''
+          title: Param
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Type
+      title: ErrorChunkContent
       type: object
-    ErrorChunkResponse:
+    Usage:
       additionalProperties: false
+      examples:
+      - completion_tokens: 1020
+        prompt_tokens: 40
+        prompt_tokens_details:
+          cached_tokens: 1020
+        total_tokens: 1060
       properties:
-        error:
-          $ref: '#/components/schemas/ErrorChunkContent'
-        status_code:
-          title: Status Code
+        completion_tokens:
+          default: 0
+          title: Completion Tokens
           type: integer
-      required:
-      - status_code
-      - error
-      title: ErrorChunkResponse
+        completion_tokens_details:
+          anyOf:
+          - $ref: '#/components/schemas/CompletionTokensDetails'
+          - type: 'null'
+        image_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Tokens
+        prompt_tokens:
+          default: 0
+          title: Prompt Tokens
+          type: integer
+        prompt_tokens_details:
+          anyOf:
+          - $ref: '#/components/schemas/PromptTokensDetails'
+          - type: 'null'
+        total_tokens:
+          default: 0
+          title: Total Tokens
+          type: integer
+      title: Usage
       type: object
     CompletionTokensDetails:
       additionalProperties: false
@@ -431,42 +410,11 @@ components:
           title: Rejected Prediction Tokens
       title: CompletionTokensDetails
       type: object
-    CompletionChoice:
-      additionalProperties: false
-      properties:
-        finish_reason:
-          anyOf:
-          - enum:
-            - stop
-            - length
-            - content_filter
-            - tool_calls
-            type: string
-          - type: 'null'
-          title: Finish Reason
-        index:
-          title: Index
-          type: integer
-        logprobs:
-          anyOf:
-          - $ref: '#/components/schemas/CompletionLogProbs'
-          - type: 'null'
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-        tokens:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Tokens
-      required:
-      - index
-      title: CompletionChoice
-      type: object
+    CreateCompletionResponse:
+      anyOf:
+      - $ref: '#/components/schemas/CompletionResponse'
+      - $ref: '#/components/schemas/ErrorChunkResponse'
+      title: CreateCompletionResponse
     CompletionResponse:
       additionalProperties: false
       examples:
@@ -537,88 +485,140 @@ components:
       - hidden
       title: ReasoningFormat
       type: string
-    ErrorChunkContent:
-      additionalProperties: false
-      properties:
-        code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Code
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Id
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Message
-        param:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Param
-        type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Type
-      title: ErrorChunkContent
-      type: object
-    StreamOptions:
-      additionalProperties: false
-      description: Options for streaming.
-      properties:
-        include_usage:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          default: null
-          title: Include Usage
-      title: StreamOptions
-      type: object
-    Usage:
+    PromptTokensDetails:
       additionalProperties: false
       examples:
-      - completion_tokens: 1020
-        prompt_tokens: 40
-        prompt_tokens_details:
-          cached_tokens: 1020
-        total_tokens: 1060
+      - cached_tokens: 1020
       properties:
-        completion_tokens:
+        cached_tokens:
           default: 0
-          title: Completion Tokens
+          title: Cached Tokens
           type: integer
-        completion_tokens_details:
+      title: PromptTokensDetails
+      type: object
+    CompletionChoice:
+      additionalProperties: false
+      properties:
+        finish_reason:
           anyOf:
-          - $ref: '#/components/schemas/CompletionTokensDetails'
+          - enum:
+            - stop
+            - length
+            - content_filter
+            - tool_calls
+            type: string
           - type: 'null'
-        image_tokens:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Image Tokens
-        prompt_tokens:
-          default: 0
-          title: Prompt Tokens
+          title: Finish Reason
+        index:
+          title: Index
           type: integer
-        prompt_tokens_details:
+        logprobs:
           anyOf:
-          - $ref: '#/components/schemas/PromptTokensDetails'
+          - $ref: '#/components/schemas/CompletionLogProbs'
           - type: 'null'
-        total_tokens:
-          default: 0
-          title: Total Tokens
-          type: integer
-      title: Usage
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        tokens:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Tokens
+      required:
+      - index
+      title: CompletionChoice
+      type: object
+    TimeInfo:
+      additionalProperties: false
+      description: 'Time information for different phases of request processing.
+
+
+        All times are measured in seconds.'
+      examples:
+      - completion_time: 0.44
+        prompt_time: 0.02
+        queue_time: 0.0
+        total_time: 0.46
+      properties:
+        completion_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Completion Time
+        created:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Created
+        prompt_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Prompt Time
+        queue_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Queue Time
+        total_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Total Time
+      title: TimeInfo
+      type: object
+    CompletionLogProbs:
+      additionalProperties: false
+      properties:
+        text_offset:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Text Offset
+        token_logprobs:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Token Logprobs
+        tokens:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tokens
+        top_logprobs:
+          anyOf:
+          - items:
+              additionalProperties:
+                type: number
+              type: object
+            type: array
+          - type: 'null'
+          title: Top Logprobs
+      title: CompletionLogProbs
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
       type: object
   securitySchemes:
     HTTPBearer:
