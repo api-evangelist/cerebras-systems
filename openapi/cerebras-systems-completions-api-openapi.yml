@@ -91,31 +91,6 @@ components:
       - type
       title: ValidationError
       type: object
-    StreamOptions:
-      additionalProperties: false
-      description: Options for streaming.
-      properties:
-        include_usage:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          default: null
-          title: Include Usage
-      title: StreamOptions
-      type: object
-    ErrorChunkResponse:
-      additionalProperties: false
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorChunkContent'
-        status_code:
-          title: Status Code
-          type: integer
-      required:
-      - status_code
-      - error
-      title: ErrorChunkResponse
-      type: object
     CompletionRequest:
       additionalProperties: false
       description: Request for completions endpoint
@@ -316,41 +291,15 @@ components:
       - prompt
       title: CompletionRequest
       type: object
-    ErrorChunkContent:
-      additionalProperties: false
-      properties:
-        code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Code
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Id
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Message
-        param:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Param
-        type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: ''
-          title: Type
-      title: ErrorChunkContent
-      type: object
+    ReasoningFormat:
+      enum:
+      - none
+      - parsed
+      - text_parsed
+      - raw
+      - hidden
+      title: ReasoningFormat
+      type: string
     Usage:
       additionalProperties: false
       examples:
@@ -387,28 +336,62 @@ components:
           type: integer
       title: Usage
       type: object
-    CompletionTokensDetails:
+    TimeInfo:
       additionalProperties: false
+      description: 'Time information for different phases of request processing.
+
+
+        All times are measured in seconds.'
       examples:
-      - accepted_prediction_tokens: 900
-        rejected_prediction_tokens: 100
+      - completion_time: 0.44
+        prompt_time: 0.02
+        queue_time: 0.0
+        total_time: 0.46
       properties:
-        accepted_prediction_tokens:
+        completion_time:
           anyOf:
-          - type: integer
+          - minimum: 0.0
+            type: number
           - type: 'null'
-          title: Accepted Prediction Tokens
-        reasoning_tokens:
+          title: Completion Time
+        created:
           anyOf:
-          - type: integer
+          - minimum: 0.0
+            type: number
           - type: 'null'
-          title: Reasoning Tokens
-        rejected_prediction_tokens:
+          title: Created
+        prompt_time:
           anyOf:
-          - type: integer
+          - minimum: 0.0
+            type: number
           - type: 'null'
-          title: Rejected Prediction Tokens
-      title: CompletionTokensDetails
+          title: Prompt Time
+        queue_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Queue Time
+        total_time:
+          anyOf:
+          - minimum: 0.0
+            type: number
+          - type: 'null'
+          title: Total Time
+      title: TimeInfo
+      type: object
+    ErrorChunkResponse:
+      additionalProperties: false
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorChunkContent'
+        status_code:
+          title: Status Code
+          type: integer
+      required:
+      - status_code
+      - error
+      title: ErrorChunkResponse
       type: object
     CreateCompletionResponse:
       anyOf:
@@ -476,25 +459,75 @@ components:
       - object
       title: CompletionResponse
       type: object
-    ReasoningFormat:
-      enum:
-      - none
-      - parsed
-      - text_parsed
-      - raw
-      - hidden
-      title: ReasoningFormat
-      type: string
-    PromptTokensDetails:
+    StreamOptions:
+      additionalProperties: false
+      description: Options for streaming.
+      properties:
+        include_usage:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: null
+          title: Include Usage
+      title: StreamOptions
+      type: object
+    CompletionTokensDetails:
       additionalProperties: false
       examples:
-      - cached_tokens: 1020
+      - accepted_prediction_tokens: 900
+        rejected_prediction_tokens: 100
       properties:
-        cached_tokens:
-          default: 0
-          title: Cached Tokens
-          type: integer
-      title: PromptTokensDetails
+        accepted_prediction_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Accepted Prediction Tokens
+        reasoning_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reasoning Tokens
+        rejected_prediction_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rejected Prediction Tokens
+      title: CompletionTokensDetails
+      type: object
+    CompletionLogProbs:
+      additionalProperties: false
+      properties:
+        text_offset:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Text Offset
+        token_logprobs:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Token Logprobs
+        tokens:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tokens
+        top_logprobs:
+          anyOf:
+          - items:
+              additionalProperties:
+                type: number
+              type: object
+            type: array
+          - type: 'null'
+          title: Top Logprobs
+      title: CompletionLogProbs
       type: object
     CompletionChoice:
       additionalProperties: false
@@ -532,84 +565,51 @@ components:
       - index
       title: CompletionChoice
       type: object
-    TimeInfo:
+    PromptTokensDetails:
       additionalProperties: false
-      description: 'Time information for different phases of request processing.
-
-
-        All times are measured in seconds.'
       examples:
-      - completion_time: 0.44
-        prompt_time: 0.02
-        queue_time: 0.0
-        total_time: 0.46
+      - cached_tokens: 1020
       properties:
-        completion_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Completion Time
-        created:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Created
-        prompt_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Prompt Time
-        queue_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Queue Time
-        total_time:
-          anyOf:
-          - minimum: 0.0
-            type: number
-          - type: 'null'
-          title: Total Time
-      title: TimeInfo
+        cached_tokens:
+          default: 0
+          title: Cached Tokens
+          type: integer
+      title: PromptTokensDetails
       type: object
-    CompletionLogProbs:
+    ErrorChunkContent:
       additionalProperties: false
       properties:
-        text_offset:
+        code:
           anyOf:
-          - items:
-              type: integer
-            type: array
+          - type: string
           - type: 'null'
-          title: Text Offset
-        token_logprobs:
+          default: ''
+          title: Code
+        id:
           anyOf:
-          - items:
-              type: number
-            type: array
+          - type: string
           - type: 'null'
-          title: Token Logprobs
-        tokens:
+          default: ''
+          title: Id
+        message:
           anyOf:
-          - items:
-              type: string
-            type: array
+          - type: string
           - type: 'null'
-          title: Tokens
-        top_logprobs:
+          default: ''
+          title: Message
+        param:
           anyOf:
-          - items:
-              additionalProperties:
-                type: number
-              type: object
-            type: array
+          - type: string
           - type: 'null'
-          title: Top Logprobs
-      title: CompletionLogProbs
+          default: ''
+          title: Param
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Type
+      title: ErrorChunkContent
       type: object
     HTTPValidationError:
       properties:

@@ -10,7 +10,9 @@
     "cerebras-systems-public-models-api-openapi.yml",
     "cerebras-systems-tcp-warming-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -27,11 +29,12 @@
     "cerebras-systems-inference-openapi-original.yml: declared missing tag: Models",
     "cerebras-systems-inference-openapi-original.yml: declared missing tag: Public Models",
     "cerebras-systems-inference-openapi-original.yml: declared missing tag: Tcp Warming",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: cerebras-systems-chat-completions-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 5 total)"
   ],
   "skipped": [
     "_original/cerebras-systems-chat-completions-openapi.yaml: archived document superseded by a larger archived document",
-    "cerebras-systems-chat-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cerebras-systems-chat-completions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cerebras-systems-completions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cerebras-systems-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cerebras-systems-public-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
