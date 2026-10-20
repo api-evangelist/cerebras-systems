@@ -15,6 +15,37 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: cerebras-systems-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@cerebras/cerebras_cloud_sdk
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@cerebras/cerebras_cloud_sdk'
+      version: 1.91.0
+      released: '2026-07-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@cerebras/cerebras_cloud_sdk
+      repo_leg: github-org:cerebras
+      publisher_leg: email:cerebras.ai
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
 - slug: cerebras-systems-openrouter
   label: OpenRouter
   partner: openrouter
@@ -77,7 +108,7 @@
   type: marketplace
   marketplace: pipedream-components
   channel: open-source-node
-  evidence: https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/cerebras
+  evidence: https://github.com/PipedreamHQ/pipedream/tree/d5872355ef27b4efa769f05352f2820c299a456e/components/cerebras
   source: edge
   relationship: ipaas-bridge
   contract_reference:
@@ -94,36 +125,5 @@
     actions: true
     sources: false
     builder: Pipedream repo (component)
-  status: not-a-workflow
-  arazzo: null
-- slug: cerebras-systems-npm-registry
-  label: npm registry
-  partner: npm
-  partner_name: npm registry
-  category: official SDK (JavaScript/TypeScript)
-  type: register
-  channel: package-registry
-  evidence: https://www.npmjs.com/package/@cerebras/cerebras_cloud_sdk
-  source: edge
-  relationship: distribution-channel
-  contract_reference:
-    register: npm registry (public registry JSON)
-    spec_file: null
-    language: JavaScript/TypeScript
-    packages:
-    - name: '@cerebras/cerebras_cloud_sdk'
-      version: 1.91.0
-      released: '2026-07-16'
-      released_field: modified
-      lapsed: false
-      page: https://www.npmjs.com/package/@cerebras/cerebras_cloud_sdk
-      repo_leg: github-org:cerebras
-      publisher_leg: email:cerebras.ai
-      matched_by: domain
-    current: true
-    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
-      24 months'
-    detected_by: sweep-official-sdks.py
-    detected: '2026-10-18'
   status: not-a-workflow
   arazzo: null
