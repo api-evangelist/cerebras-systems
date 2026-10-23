@@ -127,19 +127,6 @@
     builder: Pipedream repo (component)
   status: not-a-workflow
   arazzo: null
-- slug: cerebras-systems-vs-code-marketplace-vs-code-marketplace
-  label: VS Code Marketplace (vs-code-marketplace)
-  partner: vs-code-marketplace
-  partner_name: VS Code Marketplace (vs-code-marketplace)
-  category: IDE / developer extension marketplace listing
-  type: marketplace
-  marketplace: vs-code-marketplace
-  channel: partner-built
-  evidence: https://marketplace.visualstudio.com/publishers/cerebras
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: cerebras-systems-raycast
   label: Raycast
   partner: raycast
@@ -179,5 +166,31 @@
       (product, store); install / listing counts are context, never counted'
     detected_by: sweep-raycast-store-extensions.py
     detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
+- slug: cerebras-systems-vs-code-marketplace-vs-code-marketplace
+  label: VS Code Marketplace (vs-code-marketplace)
+  partner: vs-code-marketplace
+  partner_name: VS Code Marketplace (vs-code-marketplace)
+  category: IDE / developer extension marketplace listing
+  type: marketplace
+  marketplace: vs-code-marketplace
+  channel: partner-built
+  evidence: https://marketplace.visualstudio.com/publishers/cerebras
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: cerebras-systems-hugging-face-hugging-face-hub
+  label: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_name: Hugging Face (hugging-face-hub)
+  category: Hugging Face Hub datasets
+  type: marketplace
+  marketplace: hugging-face-hub
+  channel: partner-built
+  evidence: https://huggingface.co/cerebras
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null

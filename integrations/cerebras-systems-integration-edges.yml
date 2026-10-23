@@ -19,6 +19,7 @@ checked:
 - vs-code-marketplace/integrations/vs-code-marketplace-integration-edges.yml
 - https://github.com/raycast/extensions/tree/84f9ac51336a8c69f70974a75bc067c0feae3658/extensions
 - https://www.raycast.com/api/v1/store_listings
+- hugging-face/integrations/hugging-face-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -188,27 +189,6 @@ edges:
     builder: Pipedream repo (component)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
-- partner_name: VS Code Marketplace (vs-code-marketplace)
-  partner: vs-code-marketplace
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: vs-code-marketplace
-  evidence: https://marketplace.visualstudio.com/publishers/cerebras
-  mirror_of: vs-code-marketplace/integrations/vs-code-marketplace-integration-edges.yml
-  apps:
-  - Cerebras Inference
-  - Cerebras CLI
-  listing_count: 1
-  detected: '2026-10-20'
-  detected_by: mirror-platform-listings.py
-  category: IDE / developer extension marketplace listing
-  badges:
-  - Verified publisher
-  - Verified domain
 - partner_name: Raycast
   partner: raycast
   partner_match: domain
@@ -253,5 +233,57 @@ edges:
   detected_by: sweep-raycast-store-extensions.py
   first_seen: '2026-10-22'
   direction: partner-built
+- partner_name: VS Code Marketplace (vs-code-marketplace)
+  partner: vs-code-marketplace
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: vs-code-marketplace
+  evidence: https://marketplace.visualstudio.com/publishers/cerebras
+  mirror_of: vs-code-marketplace/integrations/vs-code-marketplace-integration-edges.yml
+  apps:
+  - Cerebras Inference
+  - Cerebras CLI
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: IDE / developer extension marketplace listing
+  badges:
+  - Verified publisher
+  - Verified domain
+- partner_name: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: hugging-face-hub
+  evidence: https://huggingface.co/cerebras
+  mirror_of: hugging-face/integrations/hugging-face-integration-edges.yml
+  apps:
+  - cerebras/TAT-QA-Arithmetic-CoT
+  - cerebras/HybridDialogue
+  - cerebras/exome_bench
+  - cerebras/Synth-Long-SFT32K
+  - cerebras/GLM-4.7-Flash-REAP-23B-A3B
+  - cerebras/Qwen3-Coder-REAP-25B-A3B
+  - cerebras/Kimi-Linear-REAP-35B-A3B-Instruct
+  - cerebras/GLM-4.5-Air-REAP-82B-A12B
+  - cerebras/Llama-3-CBHybridL-8B
+  - cerebras/MiniMax-M2.1-REAP-139B-A10B
+  - cerebras/DeepSeek-V3.2-REAP-345B-A37B
+  - cerebras/MiniMax-M2.5-REAP-139B-A10B
+  - cerebras/chain-of-thought
+  listing_count: 3
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Hugging Face Hub datasets
+  badges:
+  - Verified publisher (Hugging Face verified organisation)
 source:
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
