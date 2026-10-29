@@ -64,6 +64,151 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cerebras Systems is a company surfaced as a portfolio company of coatue and added to the API Evangelist network as a stub for enrichment. Sector: ai-infrastructure. This profile is a lead awaiting the enrichment pipeline.
+Cerebras Systems builds the Wafer-Scale Engine (WSE) — the largest computer chip ever made — and the CS-3 systems built around it, delivering AI training and inference at speeds far beyond conventional GPUs. Cerebras Inference is the company's cloud API: an OpenAI-compatible REST interface at api.cerebras.ai that serves open-weight frontier models (OpenAI GPT-OSS, Gemma 4, Z.ai GLM 4.7) at industry-leading tokens-per-second. Developers authenticate with a bearer API key and call chat/completions, completions, and models endpoints, with streaming, tool calling, structured outputs, vision, prompt caching, and batch inference. Custom model weights can be deployed on dedicated endpoints. Official Python and Node.js SDKs, a Cloud Console with a playground, and coding-tool integrations (VS Code, Cline, Kilo Code, OpenCode) round out the developer surface.
 
-Backed by: coatue — https://www.cerebras.net
+**Areas:** Company · AI Infrastructure · Artificial Intelligence · Machine Learning · Inference · LLM · Developer Tools · Cloud Computing · Semiconductors
+
+## Cerebras Systems on APIs.io
+
+Everything profiled for Cerebras Systems is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cerebras-systems/](https://apis.io/providers/cerebras-systems/)** — or go straight to one of the APIs or properties below.
+
+### APIs (5)
+
+- [Cerebras Systems Completions API](https://apis.io/apis/cerebras-systems/cerebras-systems-completions-api/) — The Completions API from Cerebras Systems — 1 operation(s) for completions.
+- [Cerebras Systems Models API](https://apis.io/apis/cerebras-systems/cerebras-systems-models-api/) — The Models API from Cerebras Systems — 2 operation(s) for models.
+- [Cerebras Systems Public Models API](https://apis.io/apis/cerebras-systems/cerebras-systems-public-models-api/) — The Public Models API from Cerebras Systems — 2 operation(s) for public models.
+- [Cerebras Systems Tcp Warming API](https://apis.io/apis/cerebras-systems/cerebras-systems-tcp-warming-api/) — The Tcp Warming API from Cerebras Systems — 1 operation(s) for tcp warming.
+- [Cerebras Systems Chat Completions API](https://apis.io/apis/cerebras-systems/cerebras-systems-chat-completions-api/) — The Chat Completions API from Cerebras Systems — 1 operation(s) for chat completions.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [cerebras-inference](https://apis.io/servers/cerebras-systems/cerebras-inference/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Cerebras Systems Agentic Access](https://apis.io/agentic-access/cerebras-systems/cerebras-systems-agentic-access/)
+
+#### Collections (10)
+
+Postman and Open Collection request collections.
+
+- [Cerebras Inference Chat API](https://apis.io/collections/cerebras-systems/open-cerebras-systems-chat-api/)
+- [Cerebras Inference Chat Completions API](https://apis.io/collections/cerebras-systems/open-cerebras-systems-completions-api/)
+- [Cerebras Inference Chat Models API](https://apis.io/collections/cerebras-systems/open-cerebras-systems-models-api/)
+- [Cerebras Inference Chat Public Models API](https://apis.io/collections/cerebras-systems/open-cerebras-systems-public-models-api/)
+- [Cerebras Inference Chat Tcp Warming API](https://apis.io/collections/cerebras-systems/open-cerebras-systems-tcp-warming-api/)
+- [Cerebras Inference Chat API](https://apis.io/collections/cerebras-systems/postman-cerebras-systems-chat-api/)
+- [Cerebras Inference Chat Completions API](https://apis.io/collections/cerebras-systems/postman-cerebras-systems-completions-api/)
+- [Cerebras Inference Chat Models API](https://apis.io/collections/cerebras-systems/postman-cerebras-systems-models-api/)
+- [Cerebras Inference Chat Public Models API](https://apis.io/collections/cerebras-systems/postman-cerebras-systems-public-models-api/)
+- [Cerebras Inference Chat Tcp Warming API](https://apis.io/collections/cerebras-systems/postman-cerebras-systems-tcp-warming-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Cerebras Systems Inference Overlay](https://apis.io/overlays/cerebras-systems/cerebras-systems-inference-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cerebras Systems Authentication](https://apis.io/security/cerebras-systems/cerebras-systems-authentication/)
+- [Cerebras Systems Domain Security](https://apis.io/security/cerebras-systems/cerebras-systems-domain-security/)
+- [Cerebras Systems Trust Center](https://apis.io/security/cerebras-systems/cerebras-systems-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Cerebras Systems Plans](https://apis.io/plans/cerebras-systems/cerebras-systems-plans/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Cerebras Systems Rate Limits](https://apis.io/rate-limits/cerebras-systems/cerebras-systems-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.cerebras.ai)
+- [Documentation](https://inference-docs.cerebras.ai)
+- [Getting started](https://inference-docs.cerebras.ai/quickstart)
+- [API reference](https://inference-docs.cerebras.ai/api-reference/chat-completions)
+- [Pricing](https://www.cerebras.ai/pricing)
+- [Sign up](https://cloud.cerebras.ai)
+- [Support](https://inference-docs.cerebras.ai/support/overview)
+- [Changelog](https://inference-docs.cerebras.ai/support/change-log)
+- [Blog](https://www.cerebras.ai/blog)
+- [Security](https://trust.cerebras.ai)
+- [Compliance](https://trust.cerebras.ai)
+- [Trust centre](https://trust.cerebras.ai)
+- [Terms of service](https://www.cerebras.ai/terms-of-service)
+- [Privacy policy](https://www.cerebras.ai/privacy-policy)
+- [GitHub](https://github.com/Cerebras)
+- [Status](https://status.cerebras.ai)
+
+## API Evangelist rating
+
+**Kin Score 59.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 42.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 72.0 |
+| Access clarity | 92.1 |
+
+**Agent readiness 28.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 27.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cerebras-systems/](https://apis.io/providers/cerebras-systems/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cerebras Systems: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cerebras-systems/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
